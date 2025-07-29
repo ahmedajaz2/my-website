@@ -38,7 +38,7 @@
   <section class="max-w-2xl mx-auto px-4 py-4  bg-gray-100">
     <h1 class="text-2xl font-bold mb-2 text-center">Contact Me</h1>
 
-    <form action="https://formspree.io/f/xovlwgvq" method="POST" class="space-y-6 py-4">
+<form id="contact-form" action="https://formspree.io/f/xovlwgvq" method="POST" class="space-y-6 py-4">
   <div>
     <label class="block mb-2 font-medium" for="name">Name <span class="text-red-500">*</span></label>
     <input type="text" id="name" name="name" required class="w-full p-3 rounded bg-white-100 border border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500" />
@@ -62,13 +62,55 @@
   <label class="block mb-2 font-medium" for="message">What’s this about? <span class="text-red-500">*</span></label>
   <textarea id="message" name="message" rows="4" required class="w-full p-3 rounded bg-white-100 border border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500"></textarea>
 </div>
-  <div class="text-center">
-        <button type="submit" class="bg-blue-600 text-white px-6 py-3 rounded hover:bg-blue-700 transition">
-          Submit
-        </button>
-      </div>
-</form>
+    <div class="text-center space-y-2">
+    <button type="submit" class="bg-blue-600 text-white px-6 py-3 rounded hover:bg-blue-700 transition">
+      Submit
+    </button>
+    <p id="contact-message" class="text-green-600 font-medium hidden">✅ Your message has been sent!</p>
+  </div>
   </section>
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const form = document.getElementById("contact-form");
+    const messageDisplay = document.getElementById("contact-message");
+
+    form.addEventListener("submit", function (e) {
+      e.preventDefault();
+
+      const formData = new FormData(form);
+      const email = formData.get("email")?.trim();
+      const isValidEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+
+      if (!isValidEmail) {
+        alert("Please enter a valid email address.");
+        return;
+      }
+
+      fetch(form.action, {
+        method: "POST",
+        body: formData,
+        headers: {
+          Accept: "application/json"
+        }
+      })
+      .then(response => {
+        if (response.ok) {
+          form.reset();
+          messageDisplay.classList.remove("hidden");
+        } else {
+          response.json().then(data => {
+            alert(data?.error || "Failed to send message.");
+          });
+        }
+      })
+      .catch(error => {
+        alert("An error occurred. Please try again.");
+        console.error(error);
+      });
+    });
+  });
+</script>
+
 
 <!-- Footer -->
 <footer class="bg-gray-800 text-gray-200 py-6 text-center">
