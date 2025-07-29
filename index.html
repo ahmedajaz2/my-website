@@ -2,72 +2,102 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Welcome to My Website</title>
-  <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
-  <style>
-    body {
-      font-family: 'Roboto', sans-serif;
-      margin: 0;
-      padding: 0;
-      background: #f5f7fa;
-      color: #333;
-    }
-
-    header {
-      background-color: #0077cc;
-      color: white;
-      padding: 1rem 2rem;
-      text-align: center;
-    }
-
-    main {
-      max-width: 800px;
-      margin: 2rem auto;
-      padding: 1rem;
-      background-color: white;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-      border-radius: 8px;
-    }
-
-    h1 {
-      margin-top: 0;
-    }
-
-    footer {
-      text-align: center;
-      padding: 1rem;
-      background-color: #eaeaea;
-      font-size: 0.9rem;
-    }
-
-    a {
-      color: #0077cc;
-      text-decoration: none;
-    }
-
-    a:hover {
-      text-decoration: underline;
-    }
-  </style>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Ahmedajaz | Identity & Cloud Security Blog</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
 </head>
-<body>
-  <header>
-    <h1>Welcome to my lair</h1>
-    <p>This is Ahmedajaz.com, where I will share tips and tricks on Identity and Cloud Security with a mix of AI and traditional approach</p>
-  </header>
+<body class="bg-gray-50 text-gray-800">
 
-  <main>
-    <h2>Hello, world!</h2>
-    <p>This is my first website using my custom domain.</p>
+  <!-- Hero Section -->
+  <section class="bg-blue-900 text-white p-12 text-center">
+    <h1 class="text-4xl md:text-5xl font-bold mb-4">Ahmedajaz | Identity & Cloud Security</h1>
+    <p class="text-xl md:text-2xl">Real-world lessons, use-cases, and automation in Entra ID, IAM, and Cloud Security</p>
+  </section>
 
-    <p>Feel free to edit this page with your own content, links, images, and projects.</p>
+  <!-- About Section -->
+  <section class="max-w-4xl mx-auto px-4 py-10">
+    <h2 class="text-3xl font-semibold mb-4 text-center">Welcome!</h2>
+    <p class="text-lg text-gray-700 text-center">
+      I'm Ajaz Ahmed Siddiqui — a Security Delivery Leader and IAM expert based in Bellevue, WA. This blog is a space where I share practical experiences around Microsoft Entra ID, Okta, Ping, ForgeRock, and securing multi-cloud environments like Azure and AWS. I focus on blending automation, governance, and secure design to build scalable identity systems. 
+    </p>
+  </section>
 
-    <p>Want to see my code? Visit my <a href="https://github.com/ahmedajaz2" target="_blank">GitHub profile</a>.</p>
-  </main>
+  <!-- Featured Categories -->
+  <section class="bg-white py-10">
+    <div class="max-w-6xl mx-auto px-4">
+      <h2 class="text-2xl font-semibold mb-6 text-center">Topics I Write About</h2>
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div class="p-6 bg-gray-100 rounded-xl shadow hover:shadow-lg transition">
+          <h3 class="text-xl font-bold mb-2">Microsoft Entra ID & Governance</h3>
+          <p>Real-world implementations of Just-in-Time Access, Role-based Access Control, Access Reviews, and Lifecycle Management.</p>
+        </div>
+        <div class="p-6 bg-gray-100 rounded-xl shadow hover:shadow-lg transition">
+          <h3 class="text-xl font-bold mb-2">IAM with Okta, Ping, ForgeRock</h3>
+          <p>Tips on Identity Federation, OAuth2/OIDC, Conditional Access, and integrating with cloud & enterprise tools.</p>
+        </div>
+        <div class="p-6 bg-gray-100 rounded-xl shadow hover:shadow-lg transition">
+          <h3 class="text-xl font-bold mb-2">Cloud Security (Azure & AWS)</h3>
+          <p>Best practices around IAM, Privileged Access, PKI, and Zero Trust models in multi-cloud environments.</p>
+        </div>
+      </div>
+    </div>
+  </section>
 
-  <footer>
-    &copy; 2025 Ajaz Ahmed Siddiqui. All rights reserved.
+  <!-- Skills & Certifications -->
+  <section class="max-w-6xl mx-auto px-4 py-12">
+    <h2 class="text-2xl font-semibold text-center mb-6">Key Skills & Certifications</h2>
+    <div class="grid md:grid-cols-2 gap-6 text-gray-700">
+      <ul class="list-disc list-inside space-y-2">
+        <li>Entra ID, Conditional Access, Microsoft Purview, Identity Governance (IGA)</li>
+        <li>Okta, PingFederate, ForgeRock, Saviynt, CyberArk, BeyondTrust</li>
+        <li>OAuth2, SAML, SCIM, LDAP, WS-Fed, Zero Trust, PKI (Venafi, ADCS)</li>
+        <li>Azure DevOps, CI/CD Pipelines, Power BI, KQL, PowerShell, Python</li>
+      </ul>
+      <ul class="list-disc list-inside space-y-2">
+        <li>Certified in Cybersecurity (ISC2)</li>
+        <li>Microsoft Certified: Azure Solutions Architect Expert</li>
+        <li>Certified Ping Identity Professional (ForgeRock)</li>
+        <li>CyberArk / Venafi Security Administrator</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- Recent Posts Placeholder -->
+  <section class="bg-white py-10">
+    <div class="max-w-6xl mx-auto px-4">
+      <h2 class="text-2xl font-semibold text-center mb-6">Recent Articles</h2>
+      <div class="grid md:grid-cols-2 gap-6">
+        <div class="bg-gray-100 p-6 rounded-lg shadow-md hover:shadow-lg">
+          <h3 class="text-xl font-bold mb-2">Modernizing IAM with Entra ID</h3>
+          <p class="mb-3">Explore how I implemented Access Packages, JIT access, and automated reviews to reduce manual overhead by 80%.</p>
+          <a href="#" class="text-blue-600 hover:underline">Read more →</a>
+        </div>
+        <div class="bg-gray-100 p-6 rounded-lg shadow-md hover:shadow-lg">
+          <h3 class="text-xl font-bold mb-2">Zero Trust & PAM for 250K Devices</h3>
+          <p class="mb-3">Lessons from deploying EPM and Administrator Protection across a global enterprise — with dashboards and automation.</p>
+          <a href="#" class="text-blue-600 hover:underline">Read more →</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Connect -->
+  <section class="bg-blue-100 py-10">
+    <div class="max-w-3xl mx-auto text-center">
+      <h2 class="text-2xl font-semibold mb-4">Connect with Me</h2>
+      <p class="mb-6">Feel free to explore my code and connect professionally:</p>
+      <div class="flex justify-center space-x-6">
+        <a href="https://github.com/ahmedajaz2" class="text-blue-700 hover:underline font-medium" target="_blank">GitHub</a>
+        <a href="https://linkedin.com/in/ahmedajaz0" class="text-blue-700 hover:underline font-medium" target="_blank">LinkedIn</a>
+        <a href="mailto:Ajaz.marsss@gmail.com" class="text-blue-700 hover:underline font-medium">Email</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="bg-gray-800 text-gray-200 py-6 text-center">
+    <p>&copy; 2025 Ahmedajaz | Identity & Cloud Security Blog</p>
   </footer>
+
 </body>
 </html>
