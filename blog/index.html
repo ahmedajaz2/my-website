@@ -5,6 +5,34 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Ahmedajaz | Identity & Cloud Security Blog</title>
   <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+<style>
+@media (max-width: 640px) {
+  .scroll-btn-left {
+    left: 0 !important;
+    top: auto !important;
+    bottom: 0.5rem !important;
+    transform: none !important;
+  }
+  .scroll-btn-right {
+    right: 0 !important;
+    top: auto !important;
+    bottom: 0.5rem !important;
+    transform: none !important;
+  }
+}
+
+#blogList {
+  max-height: 500px;
+  overflow-y: scroll;
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none;  /* IE 10+ */
+}
+
+#blogList::-webkit-scrollbar {
+  display: none; /* Chrome, Safari */
+}
+
+</style>
 </head>
 <body class="bg-gray-50 text-gray-800">
 
@@ -34,35 +62,44 @@
   </div>
 </nav>
 
+<section class="relative max-w-3xl mx-auto my-12">
+  <h2 class="text-2xl font-bold text-center mb-6">📝 Blog Articles</h2>
 
-
-
-
-<!-- blog.html -->
-<section class="max-w-6xl mx-auto px-4 py-8">
-   <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-
-    <!-- Blog Card -->
-    <a href="/blog/zero-trust/" class="block bg-white p-6 rounded-lg shadow hover:shadow-md transition">
-  <h2 class="text-xl font-semibold text-blue-700 mb-2">🔒 Zero Trust & PAM for 250K Devices</h2>
-  <p class="text-sm text-gray-600">
-    Discover how I deployed Endpoint Privilege Management (EPM) and Administrator Protection at scale—enabling JIT elevation, reducing admin rights by 95%, and enhancing visibility through dashboards and automation.
-  </p>
-  <p class="text-xs text-gray-500 mt-2">Published: July 2025</p>
-</a>
-
-    <!-- Blog Card 2 -->
+   <!-- Scrollable Blog Cards -->
+  <div id="blogList" class="max-h-[500px] overflow-y-scroll pr-2 space-y-4 px-4">
+    <!-- Blog Card 1 -->
     <a href="/blog/entra-id-case-study" class="block bg-white p-6 rounded-lg shadow hover:shadow-md transition">
-    <h2 class="text-xl font-semibold text-blue-700 mb-2">🔐 Modernizing IAM with Entra ID</h2>
-    <p class="text-sm text-gray-600">
-    Learn how I used Entra ID to automate IAM workflows, including Access Packages, JIT access, and recurring reviews—reducing manual overhead by 80% and improving audit readiness.
-    </p>
-    <p class="text-xs text-gray-500 mt-2">Published: July 2025</p>
+      <h3 class="text-lg font-semibold text-blue-700 mb-2">🔐 Modernizing IAM with Entra ID</h3>
+      <p class="text-sm text-gray-600">
+        Learn how I used Entra ID to automate IAM workflows, including Access Packages, JIT access, and recurring reviews—reducing manual overhead by 80% and improving audit readiness.
+      </p>
+      <p class="text-xs text-gray-500 mt-2">Published: July 2025</p>
     </a>
 
-    <!-- Add more cards here -->
+    <!-- Blog Card 2 -->
+    <a href="/blog/zero-trust/" class="block bg-white p-6 rounded-lg shadow hover:shadow-md transition">
+      <h3 class="text-lg font-semibold text-blue-700 mb-2">🔒 Zero Trust & PAM for 250K Devices</h3>
+      <p class="text-sm text-gray-600">
+        Discover how I deployed Endpoint Privilege Management (EPM) and Administrator Protection at scale—enabling JIT elevation, reducing admin rights by 95%, and enhancing visibility through dashboards and automation.
+      </p>
+      <p class="text-xs text-gray-500 mt-2">Published: July 2025</p>
+    </a>
+
+    <!-- Add more blog cards as needed -->
   </div>
 </section>
+
+<!-- Scroll Script -->
+<script>
+  function scrollBlog(direction) {
+    const container = document.getElementById("blogList");
+    const scrollAmount = 200;
+    container.scrollBy({
+      top: direction * scrollAmount,
+      behavior: 'smooth'
+    });
+  }
+</script>
 
 
 <!-- Footer -->
