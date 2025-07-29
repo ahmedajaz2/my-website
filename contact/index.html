@@ -35,44 +35,39 @@
 </nav>
 
   <!-- Contact Form Section -->
-  <section class="max-w-2xl mx-auto px-4 py-16  bg-gray-100">
+  <section class="max-w-2xl mx-auto px-4 py-4  bg-gray-100">
     <h1 class="text-2xl font-bold mb-2 text-center">Contact Me</h1>
-    <form class="space-y-6">
 
-      <!-- Name -->
-      <div>
-        <label class="block mb-2 font-medium" for="name">Name <span class="text-red-500">*</span></label>
-        <input type="text" id="name" required class="w-full p-3 rounded bg-white-100 border border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500">
-      </div>
-
-      <!-- Email -->
-      <div>
-        <label class="block mb-2 font-medium" for="email">Email <span class="text-red-500">*</span></label>
-        <input type="email" id="email" required class="w-full p-3 rounded bg-white-100 border border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500">
-      </div>
-
-      <!-- Phone -->
-      <div>
-        <label class="block mb-2 font-medium" for="phone">Phone (Optional)</label>
-        <input type="tel" id="phone" class="w-full p-3 rounded bg-white-100 border border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500">
-      </div>
-
-      <!-- What’s this about? -->
-      <div>
-        <label class="block mb-2 font-medium" for="message">What’s this about? <span class="text-red-500">*</span></label>
-        <textarea id="message" rows="4" required class="w-full p-3 rounded bg-white-100 border border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500"></textarea>
-      </div>
-
-
-
-      <!-- Submit Button -->
-      <div class="text-center">
+    <form action="https://formspree.io/f/xovlwgvq" method="POST" class="space-y-6 py-4">
+  <div>
+    <label class="block mb-2 font-medium" for="name">Name <span class="text-red-500">*</span></label>
+    <input type="text" id="name" name="name" required class="w-full p-3 rounded bg-white-100 border border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500" />
+  </div>
+  <div>
+    <label class="block mb-2 font-medium" for="email">Email <span class="text-red-500">*</span></label>
+    <input type="email" id="email" name="email" required class="w-full p-3 rounded bg-white-100 border border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500" />
+  </div>
+  <div>
+    <label class="block mb-2 font-medium" for="phone">Phone (Optional)</label>
+    <input 
+    type="tel" 
+    id="phone" 
+    name="phone"
+    pattern="^\+?[0-9\s\-]{7,15}$"
+    title="Please enter a valid phone number (digits, spaces, dashes allowed, 7–15 characters)"
+    class="w-full p-3 rounded bg-white-100 border border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500" 
+  />
+  </div>
+<div>
+  <label class="block mb-2 font-medium" for="message">What’s this about? <span class="text-red-500">*</span></label>
+  <textarea id="message" name="message" rows="4" required class="w-full p-3 rounded bg-white-100 border border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500"></textarea>
+</div>
+  <div class="text-center">
         <button type="submit" class="bg-blue-600 text-white px-6 py-3 rounded hover:bg-blue-700 transition">
           Submit
         </button>
       </div>
-
-    </form>
+</form>
   </section>
 
 <!-- Footer -->
