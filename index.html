@@ -126,15 +126,64 @@
     <div class="text-center md:text-left">
       <h2 class="text-2xl font-semibold mb-4">Stay Updated</h2>
       <p class="mb-6">Subscribe to get the latest posts on Identity, Cloud Security, and automation tips.</p>
-      <form class="flex flex-col sm:flex-row gap-4 justify-center md:justify-start">
-        <input type="email" placeholder="Your email address" class="p-3 rounded-md w-full sm:w-auto flex-1 border border-gray-300"/>
-        <button type="submit" class="bg-blue-600 text-white px-6 py-3 rounded-md hover:bg-blue-700 transition">Subscribe</button>
-      </form>
+      <form id="subscribe-form" action="https://formspree.io/f/mzzvgndq" method="POST" class="flex flex-col sm:flex-row gap-4 justify-center md:justify-start">
+  <input 
+    type="email" 
+    name="email" 
+    id="subscribe-email"
+    placeholder="Your email address" 
+    required
+    class="p-3 rounded-md w-full sm:w-auto flex-1 border border-gray-300"
+  />
+  <button 
+    type="submit" 
+    class="bg-blue-600 text-white px-6 py-3 rounded-md hover:bg-blue-700 transition">
+    Subscribe
+  </button>
+</form>
+<p id="subscribe-message" class="text-green-600 mt-2 hidden">Thanks for subscribing!</p>
+
     </div>
 
   </div>
 </section>
 
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const form = document.getElementById("subscribe-form");
+    const emailInput = document.getElementById("subscribe-email");
+    const message = document.getElementById("subscribe-message");
+
+    form.addEventListener("submit", function (e) {
+      e.preventDefault();
+
+      const email = emailInput.value.trim();
+      const isValidEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+      if (!isValidEmail) {
+        alert("Please enter a valid email address.");
+        return;
+      }
+
+      fetch(form.action, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email })
+      })
+      .then(response => {
+        if (response.ok) {
+          form.reset();
+          message.classList.remove("hidden");
+        } else {
+          alert("Failed to subscribe. Please try again.");
+        }
+      })
+      .catch(error => {
+        alert("An error occurred. Please try again.");
+        console.error(error);
+      });
+    });
+  });
+</script>
 
   <!-- Footer -->
   <footer class="bg-gray-800 text-gray-200 py-6 text-center">
