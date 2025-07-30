@@ -1,0 +1,24 @@
+[
+  {
+    "title": "Modernizing IAM with Entra ID",
+    "description": "Learn how I used Entra ID to automate IAM workflows, including Access Packages, JIT access, and recurring reviews—reducing manual overhead by 80% and improving audit readiness.",
+    "url": "/blog/entra-id-case-study",
+    "published": "June 2025",
+    "icon": "🔐"
+  },
+  {
+    "title": "Zero Trust & PAM for 250K Devices",
+    "description": "Discover how I deployed Endpoint Privilege Management (EPM) and Administrator Protection at scale—enabling JIT elevation, reducing admin rights by 95%, and enhancing visibility through dashboards and automation.",
+    "url": "/blog/zero-trust",
+    "published": "July 2025",
+    "icon": "🔒"
+  }
+  {
+    "title": "Seamless Entra ID & Azure Migrations",
+    "description": "Led global Microsoft Entra ID tenant and Azure subscription migrations with zero downtime and 99.9% uptime. Delivered secure identity isolation and automated transitions across hybrid environments.",
+    "url": "/blog/entra-id-migration",
+    "published": "July 2025",
+    "icon": "🌐"
+ }
+
+]
