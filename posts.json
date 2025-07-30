@@ -16,7 +16,7 @@
   {
     "title": "Seamless Entra ID & Azure Migrations",
     "description": "Led global Microsoft Entra ID tenant and Azure subscription migrations with zero downtime and 99.9% uptime. Delivered secure identity isolation and automated transitions across hybrid environments.",
-    "url": "/blog/entra-id-migration",
+    "url": "/blog/identity-isolation",
     "published": "July 2025",
     "icon": "🌐"
  }
