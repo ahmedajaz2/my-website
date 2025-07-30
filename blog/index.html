@@ -65,27 +65,13 @@
 <section class="relative max-w-3xl mx-auto my-12">
   <h2 class="text-2xl font-bold text-center mb-6">📝 Tech-Blog Articles</h2>
 
-   <!-- Scrollable Blog Cards -->
+   
 <!-- Scrollable Blog Cards -->
-<div id="blogList" class="max-h-[500px] overflow-y-scroll pr-2 space-y-4 px-4"></div>
+<div id="blogList" class="max-h-[500px] overflow-y-scroll pr-2 space-y-4 px-4">
+  <!-- Blog cards will be dynamically injected here -->
+</div>
 
-<script>
-  fetch('/posts.json')
-    .then(response => response.json())
-    .then(posts => {
-      const blogList = document.getElementById('blogList');
-      posts.forEach(post => {
-        const card = `
-          <a href="${post.url}" class="block bg-white p-6 rounded-lg shadow hover:shadow-md transition">
-            <h3 class="text-lg font-semibold text-blue-700 mb-2">${post.icon} ${post.title}</h3>
-            <p class="text-sm text-gray-600">${post.description}</p>
-            <p class="text-xs text-gray-500 mt-2">Published: ${post.published}</p>
-          </a>
-        `;
-        blogList.insertAdjacentHTML('beforeend', card);
-      });
-    });
-</script>
+
 
 </section>
 
@@ -142,6 +128,24 @@
     });
   }
 </script>
+<!-- Read JSON --> 
+<script>
+  fetch('/posts.json')
+    .then(response => response.json())
+    .then(posts => {
+      const blogList = document.getElementById('blogList');
+      posts.forEach(post => {
+        const card = `
+          <a href="${post.url}" class="block bg-white p-6 rounded-lg shadow hover:shadow-md transition">
+            <h3 class="text-lg font-semibold text-blue-700 mb-2">${post.icon} ${post.title}</h3>
+            <p class="text-sm text-gray-600">${post.description}</p>
+            <p class="text-xs text-gray-500 mt-2">Published: ${post.published}</p>
+          </a>
+        `;
+        blogList.insertAdjacentHTML('beforeend', card);
+      });
+    });
+</script> 
   
 <!-- Footer -->
 <footer class="bg-gray-800 text-gray-200 py-6 text-center">
