@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Ahmedajaz | Identity & Cloud Security Blog</title>
   <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 </head>
 <body class="bg-gray-50 text-gray-800">
 
@@ -22,16 +23,52 @@
   </div>
 </section>
 
-  <!-- Navigation Bar -->
- <nav class="bg-white text-gray-800 px-4 py-4 shadow-md sticky top-0 z-50">
-  <div class="max-w-7xl mx-auto flex justify-center">
-    <div class="space-x-6 text-lg">
+ 
+ <!-- Navigation Bar -->
+<nav class="bg-white text-gray-800 px-4 py-4 shadow-md sticky top-0 z-50">
+  <div class="max-w-7xl mx-auto flex items-center justify-between">
+
+    <!-- Left: Navigation Links -->
+    <!-- <div class="space-x-6 text-lg"> -->
+    <div class="flex flex-wrap sm:flex-nowrap space-x-3 sm:space-x-6 text-base sm:text-lg overflow-x-auto">
       <a href="/" class="hover:text-blue-600 transition">Home</a>
       <a href="/blog" class="hover:text-blue-600 transition">Blog</a>
       <a href="/about" class="hover:text-blue-600 transition">About</a>
       <a href="/contact" class="hover:text-blue-600 transition">Contact</a>
     </div>
-  </div>
+
+    <!-- Right Side -->
+<div class="flex items-center gap-4">
+    <div class="hidden sm:flex items-center gap-4">
+      <!-- LinkedIn -->
+      <a href="https://www.linkedin.com/shareArticle?mini=true&url=https://www.ahmedajaz.com"
+         target="_blank" rel="noopener noreferrer"
+         class="text-blue-600 hover:text-blue-800">
+        <i class="fab fa-linkedin text-lg"></i>
+      </a>
+
+      <!-- X (Twitter) -->
+      <a href="https://twitter.com/intent/tweet?url=https://www.ahmedajaz.com&text=Check%20this%20out!"
+         target="_blank" rel="noopener noreferrer"
+         class="text-black hover:text-gray-700">
+        <i class="fab fa-x-twitter text-lg"></i>
+      </a>
+
+      <!-- WhatsApp -->
+      <a href="https://wa.me/?text=https://www.ahmedajaz.com"
+         target="_blank" rel="noopener noreferrer"
+         class="text-green-500 hover:text-green-700">
+        <i class="fab fa-whatsapp text-lg"></i>
+      </a>
+   </div>
+<!-- Mobile Share Button -->
+  <button
+  onclick="navigator.share && navigator.share({ title: 'Ahmed Ajaz', url: window.location.href })"
+  class="sm:hidden flex items-center gap-2 bg-gray-800 text-white text-sm sm:text-base px-3 sm:px-4 py-1.5 sm:py-2 rounded hover:bg-gray-900 transition ml-4">
+  <i class="fas fa-share-alt text-base sm:text-lg"></i>
+  Share
+</button>
+</div>
 </nav>
 
   <!-- Contact Form Section -->
