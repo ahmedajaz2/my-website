@@ -89,45 +89,48 @@
   </div>
 </section>
 
-<!-- RSS feed -->
+<!-- Personal Blog Section from WordPress Feed -->
 <section class="relative max-w-3xl mx-auto my-12">
-  <h2 class="text-2xl font-bold text-center mb-6">📝 More from my Hobby Blog</h2>
-  <div id="wp-blog-preview" class="space-y-6"></div>
-  </section>
-  
-  <script>
-  async function fetchWordPressFeed() {
-    const feedUrl = 'https://ahmedajaz.wordpress.com/feed/';
-    const proxy = 'https://api.rss2json.com/v1/api.json?rss_url=' + encodeURIComponent(feedUrl);
+  <h2 class="text-2xl font-bold text-center mb-6">📚 Personal Blog Articles</h2>
 
-    try {
-      const res = await fetch(proxy);
-      const data = await res.json();
+  <div id="rss-blog-list" class="space-y-4 px-4"></div>
+</section>
 
-      const container = document.getElementById('wp-blog-preview');
+<script>
+  fetch("https://api.rss2json.com/v1/api.json?rss_url=https://ahmedajaz.wordpress.com/feed/")
+    .then(response => response.json())
+    .then(data => {
+      const container = document.getElementById("rss-blog-list");
 
-      data.items.slice(0, 3).forEach(post => {
-        const card = document.createElement('div');
-        card.className = 'bg-white p-5 rounded-lg shadow border border-gray-200 hover:shadow-md transition';
+      if (!data.items || data.items.length === 0) {
+        container.innerHTML = "<p class='text-gray-500'>No blog posts found.</p>";
+        return;
+      }
+
+      data.items.slice(0, 5).forEach(post => {
+        const card = document.createElement("a");
+        card.href = post.link;
+        card.target = "_blank";
+        card.rel = "noopener noreferrer";
+        card.className = "block bg-white p-6 rounded-lg shadow hover:shadow-md transition";
+
+        const cleanDescription = post.description.replace(/(<([^>]+)>)/gi, "").split(" ").slice(0, 30).join(" ") + "...";
 
         card.innerHTML = `
-          <a href="${post.link}" target="_blank" class="block">
-            <h3 class="text-lg font-semibold text-blue-700 mb-2">${post.title}</h3>
-            <p class="text-sm text-gray-600 mb-2">${post.description.replace(/<[^>]*>?/gm, '').substring(0, 150)}...</p>
-            <p class="text-xs text-gray-500">Published: ${new Date(post.pubDate).toLocaleDateString()}</p>
-          </a>
+          <h3 class="text-lg font-semibold text-blue-700 mb-2">📝 ${post.title}</h3>
+          <p class="text-sm text-gray-600">${cleanDescription}</p>
+          <p class="text-xs text-gray-500 mt-2">Published: ${new Date(post.pubDate).toDateString()}</p>
         `;
 
         container.appendChild(card);
       });
-    } catch (err) {
-      console.error('Failed to load blog feed:', err);
-      document.getElementById('wp-blog-preview').innerHTML = `<p class="text-red-500">Unable to load blog posts right now.</p>`;
-    }
-  }
-
-  fetchWordPressFeed();
-  </script>
+    })
+    .catch(err => {
+      console.error("Failed to load RSS:", err);
+      document.getElementById("rss-blog-list").innerHTML =
+        "<p class='text-red-500'>Unable to load blog posts right now.</p>";
+    });
+</script>
 <!-- Scroll Script -->
 <script>
   function scrollBlog(direction) {
