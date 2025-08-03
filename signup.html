@@ -25,7 +25,7 @@
       class="w-full p-3 border border-gray-300 rounded"
     />
     <p id="password-hint" class="text-xs text-red-600 mt-1 absolute left-0 -bottom-8 opacity-0 transition-opacity duration-300">
-      Password must be at least 8 characters, include a number, and a special character (!@#$%^&*).
+      Password must be at least 8 characters, include an uppercase, a lowercase, a number, and a special character (!@#$%^&*).
     </p>
   </div>
 
@@ -119,7 +119,12 @@
       errorMessage.classList.remove("hidden");
       return;
     }
-
+const upperLowerRegex = /(?=.*[a-z])(?=.*[A-Z])/;
+if (!upperLowerRegex.test(password)) {
+  errorMessage.textContent = "Password must include both uppercase and lowercase letters.";
+  errorMessage.classList.remove("hidden");
+  return;
+}
     const strengthRegex = /(?=.*\d)(?=.*[!@#$%^&*])/;
     if (!strengthRegex.test(password)) {
       errorMessage.textContent = "Password must include at least one number and one special character (!@#$%^&*).";
