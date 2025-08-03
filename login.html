@@ -48,4 +48,91 @@
       />
       <button
         type="submit"
-        class="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700 transit
+        class="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700 transition"
+      >
+        Login
+      </button>
+    </form>
+
+    <div class="text-sm text-center mt-4 flex flex-col gap-2 sm:flex-row sm:justify-center sm:gap-6">
+      <a href="#" id="forgot-password" class="text-blue-600 hover:underline">Forgot Password?</a>
+      <a href="#" id="forgot-email" class="text-blue-600 hover:underline">Forgot Email?</a>
+      <a href="/signup" class="text-green-600 hover:underline">New User? Create here</a>
+    </div>
+
+    <p id="login-error" class="text-red-600 mt-4 text-sm hidden"></p>
+    <p id="login-success" class="text-green-600 mt-4 text-sm hidden text-center">Login successful! Redirecting...</p>
+  </div>
+</section>
+
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.5.2/firebase-app.js";
+  import { getAuth, signInWithEmailAndPassword, sendPasswordResetEmail } from "https://www.gstatic.com/firebasejs/10.5.2/firebase-auth.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyCpMG4Dre9ykCTKnwKMZKknVLu6TX6foLw",
+    authDomain: "ahmedajaz-login.firebaseapp.com",
+    projectId: "ahmedajaz-login",
+    appId: "1:924506002693:web:09e82168d9f74261a5d36c"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+
+  const form = document.getElementById("login-form");
+  const errorText = document.getElementById("login-error");
+  const successText = document.getElementById("login-success");
+
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    errorText.classList.add("hidden");
+    successText.classList.add("hidden");
+
+    const email = form.email.value.trim();
+    const password = form.password.value;
+
+    try {
+      await signInWithEmailAndPassword(auth, email, password);
+      successText.classList.remove("hidden");
+      form.querySelectorAll("input, button").forEach(el => el.disabled = true);
+
+      setTimeout(() => {
+        window.location.href = "/"; // Redirect to homepage on same domain
+      }, 1500);
+    } catch (error) {
+      errorText.textContent = error.message;
+      errorText.classList.remove("hidden");
+    }
+  });
+
+  document.getElementById("forgot-password").addEventListener("click", async (e) => {
+    e.preventDefault();
+    errorText.classList.add("hidden");
+
+    const email = form.email.value.trim();
+    if (!email) {
+      alert("Please enter your email address above to receive a password reset link.");
+      return;
+    }
+
+    try {
+      await sendPasswordResetEmail(auth, email);
+      alert("Password reset email sent! Check your inbox.");
+    } catch (error) {
+      alert(`Error: ${error.message}`);
+    }
+  });
+
+  document.getElementById("forgot-email").addEventListener("click", (e) => {
+    e.preventDefault();
+    alert("If you've forgotten your email, please contact support@ahmedajaz.com for assistance.");
+  });
+</script>
+
+<!-- Footer -->
+<footer class="bg-gray-800 text-gray-200 py-6 text-center">
+  <p>&copy; 2025 Ajaz Ahmed | Identity & Cloud Security Blog</p>
+</footer>
+
+</body>
+</html>
