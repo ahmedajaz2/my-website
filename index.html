@@ -304,91 +304,12 @@
     } else {
       // Not logged in - show login button
       authControl.innerHTML = `
-        <a href="https://login.ahmedajaz.com" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition text-sm">
+        <a href="/login" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition text-sm">
           Login
         </a>
       `;
     }
   });
-</script>
-<script type="module">
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.5.2/firebase-app.js";
-  import { getAuth, signOut, sendPasswordResetEmail } from "https://www.gstatic.com/firebasejs/10.5.2/firebase-auth.js";
-
-  const firebaseConfig = {
-    apiKey: "AIzaSyCpMG4Dre9ykCTKnwKMZKknVLu6TX6foLw",
-    authDomain: "ahmedajaz-login.firebaseapp.com",
-    projectId: "ahmedajaz-login",
-    appId: "1:924506002693:web:09e82168d9f74261a5d36c"
-  };
-
-  const app = initializeApp(firebaseConfig);
-  const auth = getAuth(app);
-
-  const authControl = document.getElementById("auth-control");
-
-  // Create and add the iframe (hidden)
-  const iframe = document.createElement('iframe');
-  iframe.style.display = 'none';
-  iframe.src = 'https://login.ahmedajaz.com/auth-iframe.html';
-  document.body.appendChild(iframe);
-
-  // Listen for messages from iframe
-  window.addEventListener('message', async (event) => {
-    if (event.origin !== 'https://login.ahmedajaz.com') return;
-
-    if (event.data.type === 'auth-token') {
-      const idToken = event.data.token;
-      if (idToken) {
-        // User is logged in on login subdomain — show user icon & dropdown UI
-        authControl.innerHTML = `
-          <div class="relative">
-            <button id="user-icon" class="focus:outline-none cursor-pointer" aria-label="User menu">
-              <i class="fas fa-user-circle text-3xl text-gray-700 hover:text-blue-600 transition"></i>
-            </button>
-            <div id="user-dropdown" class="absolute right-0 mt-2 w-56 bg-white rounded shadow-md hidden z-50">
-              <div class="px-4 py-2 border-b text-gray-700" id="user-email">Logged In</div>
-              <button class="w-full text-left px-4 py-2 hover:bg-gray-100 text-sm text-blue-600" id="reset-password">Reset Password</button>
-              <button class="w-full text-left px-4 py-2 hover:bg-gray-100 text-sm text-red-600" id="logout-button">Logout</button>
-            </div>
-          </div>
-        `;
-
-        // Dropdown toggle
-        document.getElementById("user-icon").addEventListener("click", () => {
-          const dropdown = document.getElementById("user-dropdown");
-          dropdown.classList.toggle("hidden");
-        });
-
-        // Logout button sends message to iframe page to sign out user on login subdomain,
-        // and then reload main page.
-        document.getElementById("logout-button").addEventListener("click", () => {
-          // Send message to iframe to sign out user
-          iframe.contentWindow.postMessage({ type: 'sign-out' }, 'https://login.ahmedajaz.com');
-          // Wait a bit, then reload page to show login button
-          setTimeout(() => window.location.reload(), 500);
-        });
-
-        // Reset password button opens login subdomain reset password flow
-        document.getElementById("reset-password").addEventListener("click", () => {
-          window.open("https://login.ahmedajaz.com/reset-password", "_blank");
-        });
-
-      } else {
-        // No token — user not logged in — show login button
-        authControl.innerHTML = `
-          <a href="https://login.ahmedajaz.com" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition text-sm">
-            Login
-          </a>
-        `;
-      }
-    }
-  });
-
-  // Request auth token from iframe after iframe loads
-  iframe.onload = () => {
-    iframe.contentWindow.postMessage({ type: 'get-auth-token' }, 'https://login.ahmedajaz.com');
-  };
 </script>
 
 
