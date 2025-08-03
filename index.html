@@ -58,7 +58,7 @@
 
 
  <!-- User Menu -->
-      <div id="auth-control" class="relative"></div>
+      <div id="auth-control" class="relative hidden"></div>
  
 
  <!-- Social links -->
@@ -267,6 +267,8 @@
   const authControl = document.getElementById("auth-control");
 
   onAuthStateChanged(auth, (user) => {
+    const authControl = document.getElementById("auth-control");
+    authControl.classList.remove("hidden");
     if (user) {
       // Logged in - show user icon dropdown
       authControl.innerHTML = `
