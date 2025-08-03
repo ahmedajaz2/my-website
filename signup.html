@@ -135,7 +135,11 @@
         window.location.href = "/"; // Change to dashboard.html if needed
       }, 2000);
     } catch (error) {
-      errorMessage.textContent = error.message;
+      // strip "Firebase: " and anything in parentheses at the end
+	const clean = error.message
+  	.replace(/^Firebase:\s*/, "")
+  	.replace(/\s*\(auth\/.*\)\.?$/, "");
+	errorText.textContent = clean;
       errorMessage.classList.remove("hidden");
     }
   });
