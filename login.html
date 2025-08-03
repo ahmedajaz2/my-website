@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Login | Ahmedajaz Identity & Cloud Security</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+  <meta property="og:title" content="Login – Ahmedajaz Identity & Cloud Security" />
+  <meta property="og:description" content="Secure login to Ahmedajaz Identity & Cloud Security portal." />
+  <meta property="og:url" content="https://ahmedajaz.com/login" />
+  <meta property="og:type" content="website" />
+</head>
+<body class="bg-gray-50 text-gray-800">
+
+<!-- Header with Logo -->
+<section class="bg-black py-8 px-4 flex justify-center">
+  <div class="flex items-center gap-10">
+    <img src="/Logo.gif" alt="Ahmedajaz Logo" class="w-24 h-24" />
+    <div class="text-left">
+      <h1 class="text-3xl font-bold mb-2 text-blue-600">Ahmedajaz | Identity & Cloud Security</h1>
+      <p class="text-lg text-gray-100">Entra ID, IAM Governance & Cloud Security Automation</p>
+    </div>
+  </div>
+</section>
+
+<!-- Login Section -->
+<section class="py-12 flex items-center justify-center bg-gray-100 min-h-[70vh]">
+  <div class="bg-white p-8 rounded shadow-md w-full max-w-md">
+    <h2 class="text-2xl font-bold mb-6 text-center">Login</h2>
+    <form id="login-form" class="space-y-4" autocomplete="off">
+      <input
+        type="email"
+        id="email"
+        name="email"
+        placeholder="Email"
+        required
+        class="w-full px-4 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-600"
+      />
+      <input
+        type="password"
+        id="password"
+        name="password"
+        placeholder="Password"
+        required
+        class="w-full px-4 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-600"
+      />
+      <button
+        type="submit"
+        class="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700 transition"
+      >
+        Login
+      </button>
+    </form>
+
+    <div class="text-sm text-center mt-4 flex flex-col gap-2 sm:flex-row sm:justify-center sm:gap-6">
+      <a href="#" id="forgot-password" class="text-blue-600 hover:underline">Forgot Password?</a>
+      <a href="#" id="forgot-email" class="text-blue-600 hover:underline">Forgot Email?</a>
+      <a href="/signup" class="text-green-600 hover:underline">New User? Create here</a>
+    </div>
+
+    <p id="login-error" class="text-red-600 mt-4 text-sm hidden"></p>
+    <p id="login-success" class="text-green-600 mt-4 text-sm hidden text-center">Login successful! Redirecting...</p>
+  </div>
+</section>
+
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.5.2/firebase-app.js";
+  import { getAuth, signInWithEmailAndPassword, sendPasswordResetEmail } from "https://www.gstatic.com/firebasejs/10.5.2/firebase-auth.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyCpMG4Dre9ykCTKnwKMZKknVLu6TX6foLw",
+    authDomain: "ahmedajaz-login.firebaseapp.com",
+    projectId: "ahmedajaz-login",
+    appId: "1:924506002693:web:09e82168d9f74261a5d36c"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+
+  const form = document.getElementById("login-form");
+  const errorText = document.getElementById("login-error");
+  const successText = document.getElementById("login-success");
+
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    errorText.classList.add("hidden");
+    successText.classList.add("hidden");
+
+    const email = form.email.value.trim();
+    const password = form.password.value;
+
+    try {
+      await signInWithEmailAndPassword(auth, email, password);
+      successText.classList.remove("hidden");
+      form.querySelectorAll("input, button").forEach(el => el.disabled = true);
+
+      setTimeout(() => {
+        window.location.href = "/"; // Redirect to homepage on same domain
+      }, 1500);
+    } catch (error) {
+      errorText.textContent = error.message;
+      errorText.classList.remove("hidden");
+    }
+  });
+
+  document.getElementById("forgot-password").addEventListener("click", async (e) => {
+    e.preventDefault();
+    errorText.classList.add("hidden");
+
+    const email = form.email.value.trim();
+    if (!email) {
+      alert("Please enter your email address above to receive a password reset link.");
+      return;
+    }
+
+    try {
+      await sendPasswordResetEmail(auth, email);
+      alert("Password reset email sent! Check your inbox.");
+    } catch (error) {
+      alert(`Error: ${error.message}`);
+    }
+  });
+
+  document.getElementById("forgot-email").addEventListener("click", (e) => {
+    e.preventDefault();
+    alert("If you've forgotten your email, please contact support@ahmedajaz.com for assistance.");
+  });
+</script>
+
+<!-- Footer -->
+<footer class="bg-gray-800 text-gray-200 py-6 text-center">
+  <p>&copy; 2025 Ajaz Ahmed | Identity & Cloud Security Blog</p>
+</footer>
+
+</body>
+</html>
