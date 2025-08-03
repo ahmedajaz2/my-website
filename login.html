@@ -117,8 +117,7 @@
     } catch (error) {
       // strip "Firebase: " and anything in parentheses at the end
 	const clean = error.message
-  	.replace(/^Firebase:\s*/, "")
-  	.replace(/\s*\(auth\/.*\)\.?$/, "");
+  	.replace(/^Firebase:\s*/, "");
 	errorText.textContent = clean;
       errorText.classList.remove("hidden");
     }
