@@ -68,7 +68,8 @@
       <button class="w-full text-left px-4 py-2 hover:bg-gray-100 text-sm text-red-600" id="logout-button">Logout</button>
       </div>
     </div>
-  </div>
+    <div id="auth-control" class="relative"></div>
+ 
 
 
     <div class="hidden sm:flex items-center gap-4">
@@ -273,47 +274,52 @@
   const app = initializeApp(firebaseConfig);
   const auth = getAuth(app);
 
-  const userIcon = document.getElementById("user-icon");
-  const userDropdown = document.getElementById("user-dropdown");
-  const userEmailDisplay = document.getElementById("user-email");
-  const resetPasswordBtn = document.getElementById("reset-password");
-  const logoutButton = document.getElementById("logout-button");
-  const menuContainer = document.getElementById("user-menu-container");
+  const authControl = document.getElementById("auth-control");
 
-  // Toggle dropdown
-  userIcon?.addEventListener("click", () => {
-    userDropdown.classList.toggle("hidden");
-  });
-
-  // Show user if logged in
   onAuthStateChanged(auth, (user) => {
     if (user) {
-      userEmailDisplay.textContent = user.email;
-      menuContainer.style.display = "block";
+      // Logged in - show user icon dropdown
+      authControl.innerHTML = `
+        <button id="user-icon" class="focus:outline-none">
+          <i class="fas fa-user-circle text-3xl text-gray-700 hover:text-blue-600 transition"></i>
+        </button>
+        <div id="user-dropdown" class="absolute right-0 mt-2 w-56 bg-white rounded shadow-md hidden z-50">
+          <div class="px-4 py-2 border-b text-gray-700" id="user-email">${user.email}</div>
+          <button class="w-full text-left px-4 py-2 hover:bg-gray-100 text-sm text-blue-600" id="reset-password">Reset Password</button>
+          <button class="w-full text-left px-4 py-2 hover:bg-gray-100 text-sm text-red-600" id="logout-button">Logout</button>
+        </div>
+      `;
+
+      // Toggle dropdown
+      document.getElementById("user-icon").addEventListener("click", () => {
+        const dropdown = document.getElementById("user-dropdown");
+        dropdown.classList.toggle("hidden");
+      });
+
+      // Logout
+      document.getElementById("logout-button").addEventListener("click", () => {
+        signOut(auth).then(() => {
+          window.location.reload();
+        });
+      });
+
+      // Reset password
+      document.getElementById("reset-password").addEventListener("click", () => {
+        sendPasswordResetEmail(auth, user.email)
+          .then(() => alert("Reset email sent!"))
+          .catch((error) => alert(error.message));
+      });
     } else {
-      menuContainer.style.display = "none";
-    }
-  });
-
-  // Logout
-  logoutButton?.addEventListener("click", async () => {
-    await signOut(auth);
-    window.location.href = "/index.html"; // or show message
-  });
-
-  // Reset Password
-  resetPasswordBtn?.addEventListener("click", async () => {
-    const user = auth.currentUser;
-    if (user && user.email) {
-      try {
-        await sendPasswordResetEmail(auth, user.email);
-        alert("Password reset link sent to your email.");
-      } catch (err) {
-        alert("Error sending reset link.");
-      }
+      // Not logged in - show login button
+      authControl.innerHTML = `
+        <a href="https://login.ahmedajaz.com" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition text-sm">
+          Login
+        </a>
+      `;
     }
   });
 </script>
+
 
 
 
