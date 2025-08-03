@@ -56,6 +56,11 @@
 
     <!-- Right Side -->
 <div class="flex items-center gap-4">
+
+ <!-- User Menu -->
+      <div id="auth-control" class="relative hidden"></div>
+ 
+ <!-- Social links -->
     <div class="hidden sm:flex items-center gap-4">
       <!-- LinkedIn -->
       <a href="https://www.linkedin.com/shareArticle?mini=true&url=https://www.ahmedajaz.com"
@@ -162,6 +167,67 @@
         console.error(error);
       });
     });
+  });
+</script>
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.5.2/firebase-app.js";
+  import { getAuth, onAuthStateChanged, signOut, sendPasswordResetEmail } from "https://www.gstatic.com/firebasejs/10.5.2/firebase-auth.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyCpMG4Dre9ykCTKnwKMZKknVLu6TX6foLw",
+    authDomain: "ahmedajaz-login.firebaseapp.com",
+    projectId: "ahmedajaz-login",
+    appId: "1:924506002693:web:09e82168d9f74261a5d36c"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+
+  const authControl = document.getElementById("auth-control");
+
+  onAuthStateChanged(auth, (user) => {
+    const authControl = document.getElementById("auth-control");
+    authControl.classList.remove("hidden");
+    if (user) {
+      // Logged in - show user icon dropdown
+      authControl.innerHTML = `
+        <button id="user-icon" class="focus:outline-none">
+          <i class="fas fa-user-circle text-3xl text-gray-700 hover:text-blue-600 transition"></i>
+        </button>
+        <div id="user-dropdown" class="absolute right-0 mt-2 w-56 bg-white rounded shadow-md hidden z-50">
+          <div class="px-4 py-2 border-b text-gray-700" id="user-email">${user.email}</div>
+          <button class="w-full text-left px-4 py-2 hover:bg-gray-100 text-sm text-blue-600" id="reset-password">Reset Password</button>
+          <button class="w-full text-left px-4 py-2 hover:bg-gray-100 text-sm text-red-600" id="logout-button">Logout</button>
+        </div>
+      `;
+
+      // Toggle dropdown
+      document.getElementById("user-icon").addEventListener("click", () => {
+        const dropdown = document.getElementById("user-dropdown");
+        dropdown.classList.toggle("hidden");
+      });
+
+      // Logout
+      document.getElementById("logout-button").addEventListener("click", () => {
+        signOut(auth).then(() => {
+          window.location.reload();
+        });
+      });
+
+      // Reset password
+      document.getElementById("reset-password").addEventListener("click", () => {
+        sendPasswordResetEmail(auth, user.email)
+          .then(() => alert("Reset email sent!"))
+          .catch((error) => alert(error.message));
+      });
+    } else {
+      // Not logged in - show login button
+      authControl.innerHTML = `
+        <a href="/login" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition text-sm">
+          Login
+        </a>
+      `;
+    }
   });
 </script>
 
