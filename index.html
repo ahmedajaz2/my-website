@@ -53,6 +53,19 @@
       <a href="/contact" class="hover:text-blue-600 transition">Contact</a>
     </div>
 
+<!-- User Menu (hidden if not logged in) -->
+<div class="relative" id="user-menu-container">
+  <button id="user-icon" class="focus:outline-none relative">
+    <i class="fas fa-user-circle text-3xl text-white"></i>
+  </button>
+
+  <div id="user-dropdown" class="absolute right-0 mt-2 w-56 bg-white rounded shadow-md hidden z-50">
+    <div class="px-4 py-2 border-b text-gray-700" id="user-email">Loading...</div>
+    <button class="w-full text-left px-4 py-2 hover:bg-gray-100 text-sm text-blue-600" id="reset-password">Reset Password</button>
+    <button class="w-full text-left px-4 py-2 hover:bg-gray-100 text-sm text-red-600" id="logout-button">Logout</button>
+  </div>
+</div>
+
     <!-- Right Side -->
 <div class="flex items-center gap-4">
     <div class="hidden sm:flex items-center gap-4">
@@ -244,6 +257,40 @@
     });
   });
 </script>
+
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.5.2/firebase-app.js";
+  import {
+    getAuth,
+    onAuthStateChanged,
+    signOut,
+    sendPasswordResetEmail
+  } from "https://www.gstatic.com/firebasejs/10.5.2/firebase-auth.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyCpMG4Dre9ykCTKnwKMZKknVLu6TX6foLw",
+    authDomain: "ahmedajaz-login.firebaseapp.com",
+    projectId: "ahmedajaz-login",
+    appId: "1:924506002693:web:09e82168d9f74261a5d36c"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+
+  const userIcon = document.getElementById("user-icon");
+  const userDropdown = document.getElementById("user-dropdown");
+  const userEmailDisplay = document.getElementById("user-email");
+  const resetPasswordBtn = document.getElementById("reset-password");
+  const logoutButton = document.getElementById("logout-button");
+  const menuContainer = document.getElementById("user-menu-container");
+
+  // Toggle dropdown visibility
+  userIcon?.addEventListener("click", () => {
+    userDropdown.classList.toggle("hidden");
+  });
+
+  // Detect i
+
 
   <!-- Footer -->
   <footer class="bg-gray-800 text-gray-200 py-6 text-center">
