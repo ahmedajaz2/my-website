@@ -257,15 +257,9 @@
     });
   });
 </script>
-
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.5.2/firebase-app.js";
-  import {
-    getAuth,
-    onAuthStateChanged,
-    signOut,
-    sendPasswordResetEmail
-  } from "https://www.gstatic.com/firebasejs/10.5.2/firebase-auth.js";
+  import { getAuth, onAuthStateChanged, signOut, sendPasswordResetEmail } from "https://www.gstatic.com/firebasejs/10.5.2/firebase-auth.js";
 
   const firebaseConfig = {
     apiKey: "AIzaSyCpMG4Dre9ykCTKnwKMZKknVLu6TX6foLw",
@@ -284,12 +278,41 @@
   const logoutButton = document.getElementById("logout-button");
   const menuContainer = document.getElementById("user-menu-container");
 
-  // Toggle dropdown visibility
+  // Toggle dropdown
   userIcon?.addEventListener("click", () => {
     userDropdown.classList.toggle("hidden");
   });
 
-  // Detect i
+  // Show user if logged in
+  onAuthStateChanged(auth, (user) => {
+    if (user) {
+      userEmailDisplay.textContent = user.email;
+      menuContainer.style.display = "block";
+    } else {
+      menuContainer.style.display = "none";
+    }
+  });
+
+  // Logout
+  logoutButton?.addEventListener("click", async () => {
+    await signOut(auth);
+    window.location.href = "/index.html"; // or show message
+  });
+
+  // Reset Password
+  resetPasswordBtn?.addEventListener("click", async () => {
+    const user = auth.currentUser;
+    if (user && user.email) {
+      try {
+        await sendPasswordResetEmail(auth, user.email);
+        alert("Password reset link sent to your email.");
+      } catch (err) {
+        alert("Error sending reset link.");
+      }
+    }
+  });
+</script>
+
 
 
   <!-- Footer -->
