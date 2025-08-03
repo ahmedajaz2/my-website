@@ -115,7 +115,11 @@
         window.location.href = "/"; // Redirect to homepage
       }, 1500);
     } catch (error) {
-      errorText.textContent = error.message;
+      // strip "Firebase: " and anything in parentheses at the end
+	const clean = error.message
+  	.replace(/^Firebase:\s*/, "")
+  	.replace(/\s*\(auth\/.*\)\.?$/, "");
+	errorText.textContent = clean;
       errorText.classList.remove("hidden");
     }
   });
@@ -140,7 +144,7 @@
 
   document.getElementById("forgot-email").addEventListener("click", (e) => {
     e.preventDefault();
-    alert("If you've forgotten your email, please contact support@ahmedajaz.com for assistance.");
+    alert("If you've forgotten your email, please contact ajaz.marsss@gmail.com for assistance.");
   });
 
   // Google login logic
