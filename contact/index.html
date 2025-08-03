@@ -86,9 +86,9 @@
 <!-- Mobile Share Button -->
   <button
   onclick="navigator.share && navigator.share({ title: 'Ahmed Ajaz', url: window.location.href })"
-  class="sm:hidden flex items-center gap-2 bg-gray-800 text-white text-sm sm:text-base px-3 sm:px-4 py-1.5 sm:py-2 rounded hover:bg-gray-900 transition ml-4">
-  <i class="fas fa-share-alt text-base sm:text-lg"></i>
-  Share
+  class="sm:hidden flex items-center gap-1 bg-gray-800 text-white text-sm px-2 py-1.5 rounded hover:bg-gray-900 transition ml-4">
+  <i class="fas fa-share-alt text-base"></i>
+  <span class="sr-only">Share</span> <!-- for accessibility -->
 </button>
 </div>
 </nav>
@@ -223,7 +223,7 @@
     } else {
       // Not logged in - show login button
       authControl.innerHTML = `
-        <a href="/login" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition text-sm">
+        <a href="/login" class="bg-blue-600 text-white px-2 py-2 rounded hover:bg-blue-700 transition text-sm">
           Login
         </a>
       `;
