@@ -54,20 +54,34 @@
       </button>
     </form>
 
+	<div class="mt-6">
+	  <button id="google-login"
+    	class="w-full border border-gray-300 text-gray-800 bg-white py-2 rounded flex items-center justify-center gap-2 hover:bg-gray-100 transition"
+ 	 >
+   	 <i class="fab fa-google"></i> Sign in with Google
+ 	 </button>
+	</div>
+
+
     <div class="text-sm text-center mt-4 flex flex-col gap-2 sm:flex-row sm:justify-center sm:gap-6">
       <a href="#" id="forgot-password" class="text-blue-600 hover:underline">Forgot Password?</a>
       <a href="#" id="forgot-email" class="text-blue-600 hover:underline">Forgot Email?</a>
-      <a href="/signup" class="text-green-600 hover:underline">New User? Create here</a>
+      <a href="/signup" class="text-green-600 hover:underline">Register New User</a>
     </div>
 
     <p id="login-error" class="text-red-600 mt-4 text-sm hidden"></p>
     <p id="login-success" class="text-green-600 mt-4 text-sm hidden text-center">Login successful! Redirecting...</p>
   </div>
 </section>
-
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.5.2/firebase-app.js";
-  import { getAuth, signInWithEmailAndPassword, sendPasswordResetEmail } from "https://www.gstatic.com/firebasejs/10.5.2/firebase-auth.js";
+  import {
+    getAuth,
+    signInWithEmailAndPassword,
+    sendPasswordResetEmail,
+    GoogleAuthProvider,
+    signInWithPopup
+  } from "https://www.gstatic.com/firebasejs/10.5.2/firebase-auth.js";
 
   const firebaseConfig = {
     apiKey: "AIzaSyCpMG4Dre9ykCTKnwKMZKknVLu6TX6foLw",
@@ -78,6 +92,7 @@
 
   const app = initializeApp(firebaseConfig);
   const auth = getAuth(app);
+  const provider = new GoogleAuthProvider();
 
   const form = document.getElementById("login-form");
   const errorText = document.getElementById("login-error");
@@ -97,7 +112,7 @@
       form.querySelectorAll("input, button").forEach(el => el.disabled = true);
 
       setTimeout(() => {
-        window.location.href = "/"; // Redirect to homepage on same domain
+        window.location.href = "/"; // Redirect to homepage
       }, 1500);
     } catch (error) {
       errorText.textContent = error.message;
@@ -126,6 +141,22 @@
   document.getElementById("forgot-email").addEventListener("click", (e) => {
     e.preventDefault();
     alert("If you've forgotten your email, please contact support@ahmedajaz.com for assistance.");
+  });
+
+  // Google login logic
+  document.getElementById("google-login").addEventListener("click", async () => {
+    try {
+      const result = await signInWithPopup(auth, provider);
+      console.log("Google user:", result.user);
+      successText.textContent = "Login successful! Redirecting...";
+      successText.classList.remove("hidden");
+      setTimeout(() => {
+        window.location.href = "/";
+      }, 1500);
+    } catch (error) {
+      errorText.textContent = error.message;
+      errorText.classList.remove("hidden");
+    }
   });
 </script>
 
