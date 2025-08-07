@@ -312,7 +312,20 @@
   });
 </script>
 
+<script>
+  // Disable right-click on the login button
+  document.addEventListener("DOMContentLoaded", () => {
+    const observer = new MutationObserver(() => {
+      const loginButton = document.querySelector('#auth-control a[href="/login"]');
+      if (loginButton) {
+        loginButton.addEventListener('contextmenu', (e) => e.preventDefault());
+        observer.disconnect(); // Stop observing once found and handled
+      }
+    });
 
+    observer.observe(document.getElementById("auth-control"), { childList: true, subtree: true });
+  });
+</script>
 
 
   <!-- Footer -->
@@ -322,3 +335,4 @@
 
 </body>
 </html>
+
