@@ -144,7 +144,7 @@ if (!upperLowerRegex.test(password)) {
 	const clean = error.message
   	.replace(/^Firebase:\s*/, "")
   	.replace(/\s*\(auth\/.*\)\.?$/, "");
-	errorText.textContent = clean;
+	errorMessage.textContent = clean;
       errorMessage.classList.remove("hidden");
     }
   });
