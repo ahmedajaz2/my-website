@@ -94,6 +94,12 @@
 
   </div>
 </nav>
+
+<p class="mt-4 text-lg font-semibold">
+  Visitor Count: <span id="visitor-count">Loading...</span>
+</p>
+
+
 <! Copy above in all pages>
   
 <!-- Welcome Section with Profile Picture -->
@@ -253,6 +259,7 @@
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.5.2/firebase-app.js";
   import { getAuth, onAuthStateChanged, signOut, sendPasswordResetEmail } from "https://www.gstatic.com/firebasejs/10.5.2/firebase-auth.js";
+  import { getDatabase, ref, runTransaction } from "https://www.gstatic.com/firebasejs/10.5.2/firebase-database.js";
 
   const firebaseConfig = {
     apiKey: "AIzaSyCpMG4Dre9ykCTKnwKMZKknVLu6TX6foLw",
@@ -262,6 +269,36 @@
   };
 
   const app = initializeApp(firebaseConfig);
+
+
+//visitor count
+const database = getDatabase(app);
+
+function incrementVisitorCount() {
+  const countRef = ref(database, 'visitorCount');
+
+  // Use a transaction to safely increment count
+  runTransaction(countRef, (currentCount) => {
+    return (currentCount || 0) + 1;
+  }).then((result) => {
+    if (result.committed) {
+      const newCount = result.snapshot.val();
+      console.log("Visitor count updated to:", newCount);
+
+      // Show count somewhere on the page - for example inside a new element with id visitor-count
+      const countDisplay = document.getElementById('visitor-count');
+      if (countDisplay) {
+        countDisplay.textContent = newCount;
+      }
+    }
+  }).catch((error) => {
+    console.error("Transaction failed:", error);
+  });
+}
+
+incrementVisitorCount();
+
+//Oauth login
   const auth = getAuth(app);
 
   const authControl = document.getElementById("auth-control");
