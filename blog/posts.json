@@ -19,7 +19,7 @@
     "url": "/blog/identity-isolation",
     "published": "July 2025",
     "icon": "🌐"
-  }
+  },
   {
     "title": "Securing Email Communication with SPF, DKIM, and DMARC",
     "description": "Explore how Microsoft 365, combined with SPF, DKIM, and DMARC, strengthens email trust and defends against phishing and spoofing through DNS authentication, cryptographic signing, and enforced domain policies.",
