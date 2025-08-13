@@ -281,6 +281,102 @@
   </div>
 </section>
 
+
+<!-- Licenses & Certifications Section -->
+<section class="bg-white py-6">
+  <div class="max-w-6xl mx-auto px-4 text-center">
+    <h2 class="text-2xl font-semibold text-gray-800 mb-4 inline-block">
+      Licenses & Certifications
+    </h2>
+    <button id="toggleCertsBtn" onclick="toggleCerts()" class="text-blue-600 hover:underline ml-2 focus:outline-none">
+      Show All ->
+    </button>
+
+    <div id="certsList" class="hidden grid grid-cols-1 md:grid-cols-2 gap-6 mt-4 text-left">
+      
+     <!-- ISC2 -->
+      <div class="flex items-start gap-4">
+        <img src="https://edge.sitecorecloud.io/internationf173-xmc4e73-prodbc0f-9660/media/Project/ISC2/Main/Media/logos/logo.svg?iar=0" alt="ISC2" class="w-12 h-12 flex-shrink-0 object-contain">
+        <div class="flex-1">
+          <p class="font-medium text-gray-800">ISC2 Certified in CyberSecurity (CC)</p>
+          <p class="text-sm text-gray-500">Issued Jul 2025</p>
+        </div>
+      </div>
+ 
+     <!-- MLADS -->
+      <div class="flex items-start gap-4">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/4/44/Microsoft_logo.svg" alt="Microsoft" class="w-12 h-12 flex-shrink-0 object-contain">
+        <div class="flex-1">
+          <p class="font-medium text-gray-800">June 2025 MLADS Conference Attendee Cohort</p>
+          <p class="text-sm text-gray-500">Issued June 2025</p>
+        </div>
+      </div>
+
+
+     <!-- AI Learning Intermediate -->
+      <div class="flex items-start gap-4">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/4/44/Microsoft_logo.svg" alt="Microsoft" class="w-12 h-12 flex-shrink-0 object-contain">
+        <div class="flex-1">
+          <p class="font-medium text-gray-800">AI Learning Immediate</p>
+          <p class="text-sm text-gray-500">Issued Dec 2023</p>
+        </div>
+      </div>
+
+      <!-- Windows 365 Champion -->
+      <div class="flex items-start gap-4">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/4/44/Microsoft_logo.svg" alt="Microsoft" class="w-12 h-12 flex-shrink-0 object-contain">
+        <div class="flex-1">
+          <p class="font-medium text-gray-800">Windows 365 Champion, Level 1</p>
+          <p class="text-sm text-gray-500">Issued Aug 2022</p>
+        </div>
+      </div>
+
+      <!-- Azure Solutions Architect Expert -->
+      <div class="flex items-start gap-4">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/4/44/Microsoft_logo.svg" alt="Microsoft" class="w-12 h-12 flex-shrink-0 object-contain">
+        <div class="flex-1">
+          <p class="font-medium text-gray-800">Microsoft Certified: Azure Solutions Architect Expert</p>
+          <p class="text-sm text-gray-500">Issued Jul 2021</p>
+        </div>
+      </div>
+
+      <!-- ForgeRock -->
+      <div class="flex items-start gap-4">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/e/e5/Forgerock_Logo_190px.png" alt="ForgeRock" class="w-12 h-12 flex-shrink-0 object-contain">
+        <div class="flex-1">
+          <p class="font-medium text-gray-800">ForgeRock Certified Access Management Specialist</p>
+          <p class="text-sm text-gray-500">Issued Oct 2020</p>
+        </div>
+      </div>
+
+      <!-- Venafi -->
+      <div class="flex items-start gap-4">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c0/Venafi_logo.svg/1024px-Venafi_logo.svg.png?20220124145616" alt="Venafi" class="w-12 h-12 flex-shrink-0 object-contain">
+        <div class="flex-1">
+          <p class="font-medium text-gray-800">Venafi Security Administrator 19</p>
+          <p class="text-sm text-gray-500">Issued Aug 2019</p>
+        </div>
+      </div>
+
+
+
+      <!-- Add more certifications here -->
+
+    </div>
+  </div>
+</section>
+
+<script>
+  function toggleCerts() {
+    const certsList = document.getElementById("certsList");
+    const btn = document.getElementById("toggleCertsBtn");
+    certsList.classList.toggle("hidden");
+    btn.textContent = certsList.classList.contains("hidden") ? "Show All ->" : "<- Hide All";
+  }
+</script>
+
+
+
 <!-- Contact & Resume Section -->
 <section class="bg-white py-4">
   <div class="max-w-6xl mx-auto px-4 text-center">
