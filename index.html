@@ -253,45 +253,62 @@
 
 <script>
   document.addEventListener("DOMContentLoaded", function () {
-    const form = document.getElementById("subscribe-form");
-    const emailInput = document.getElementById("subscribe-email");
-    const message = document.getElementById("subscribe-message");
+  const form = document.getElementById("subscribe-form");
+  const emailInput = document.getElementById("subscribe-email");
+  const message = document.getElementById("subscribe-message");
 
-    form.addEventListener("submit", function (e) {
-      e.preventDefault();
+  form.addEventListener("submit", function (e) {
+    e.preventDefault();
 
-      const email = emailInput.value.trim();
-      const isValidEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
-      if (!isValidEmail) {
-        alert("Please enter a valid email address.");
-        return;
-      }
+    const email = emailInput.value.trim();
+    const isValidEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+    if (!isValidEmail) {
+      alert("Please enter a valid email address.");
+      return;
+    }
 
-      fetch(form.action, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email })
+    // Save to Firebase
+    push(ref(database, 'subscribers'), { email: email, timestamp: Date.now() })
+      .then(() => {
+        form.reset();
+        message.classList.remove("hidden");
+        setTimeout(() => message.classList.add("hidden"), 5000);
       })
-      .then(response => {
-        if (response.ok) {
-          form.reset();
-          message.classList.remove("hidden");
-        } else {
-          alert("Failed to subscribe. Please try again.");
-        }
-      })
-      .catch(error => {
-        alert("An error occurred. Please try again.");
-        console.error(error);
+      .catch(err => {
+        console.error(err);
+        alert("Failed to subscribe. Please try again.");
       });
-    });
   });
+});
+
 </script>
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.5.2/firebase-app.js";
   import { getAuth, onAuthStateChanged, signOut, sendPasswordResetEmail } from "https://www.gstatic.com/firebasejs/10.5.2/firebase-auth.js";
   import { getDatabase, ref, runTransaction } from "https://www.gstatic.com/firebasejs/10.5.2/firebase-database.js";
+  import { getMessaging, getToken, onMessage } from "https://www.gstatic.com/firebasejs/10.5.2/firebase-messaging.js";
+  import { getDatabase, ref, push } from "https://www.gstatic.com/firebasejs/10.5.2/firebase-database.js";
+  // Reference to 'subscribers' node
+  const subscribersRef = ref(database, 'subscribers');
+  
+const messaging = getMessaging(app);
 
+// Request permission and get token
+Notification.requestPermission().then(permission => {
+  if (permission === 'granted') {
+    getToken(messaging, { vapidKey: 'YOUR_VAPID_KEY_HERE' }).then((currentToken) => {
+      if (currentToken) {
+        console.log("FCM token:", currentToken);
+        // Save token to Firebase database for this subscriber
+      }
+    });
+  }
+});
+
+// Listen for messages while the app is in foreground
+onMessage(messaging, (payload) => {
+  console.log('Message received. ', payload);
+});
   const firebaseConfig = {
     apiKey: "AIzaSyCpMG4Dre9ykCTKnwKMZKknVLu6TX6foLw",
     authDomain: "ahmedajaz-login.firebaseapp.com",
