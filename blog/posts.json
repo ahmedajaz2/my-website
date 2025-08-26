@@ -26,6 +26,13 @@
     "url": "/blog/email-security",
     "published": "August 2025",
     "icon": "📧"
+  },
+  {
+    "title": "Why Identity Security Is Critical for AI Safety",
+    "description": "Exploring how AI agents become identities with permissions, tokens, and API keys—and why applying RBAC, Zero Trust, and secrets management is essential to prevent over-permissioned agents and data leaks.",
+    "url": "/blog/ai-identity-safety",
+    "published": "August 2025",
+    "icon": "🤖"
   }
 
 ]

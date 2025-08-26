@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Ahmedajaz | Identity & Cloud Security Blog</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+<body class="bg-gray-50 text-gray-800">
+
+<!-- Header with Logo -->
+<section class="bg-black py-8 px-4 flex justify-center">
+  <div class="flex items-center gap-10">
+    <!-- Logo -->
+    <img src="/Logo.gif" alt="Ahmedajaz Logo" class="w-24 h-24" />
+
+    <!-- Text Block -->
+    <div class="text-left">
+      <h1 class="text-3xl font-bold mb-2 text-blue-600">Ahmedajaz | Identity & Cloud Security</h1>
+      <p class="text-lg text-gray-100">Entra ID, IAM Governance & Cloud Security Automation</p>
+    </div>
+  </div>
+</section>
+
+ 
+ <!-- Navigation Bar -->
+<nav class="bg-white text-gray-800 px-4 py-4 shadow-md sticky top-0 z-50">
+  <div class="max-w-7xl mx-auto flex items-center justify-between">
+    <div class="flex flex-wrap sm:flex-nowrap space-x-3 sm:space-x-6 text-base sm:text-lg overflow-x-auto">
+      <a href="/" class="hover:text-blue-600 transition">Home</a>
+      <a href="/blog" class="hover:text-blue-600 transition">Blog</a>
+      <a href="/about" class="hover:text-blue-600 transition">About</a>
+      <a href="/contact" class="hover:text-blue-600 transition">Contact</a>
+    </div>
+
+    <div class="flex items-center gap-4">
+      <div class="hidden sm:flex items-center gap-4">
+        <a href="https://www.linkedin.com/shareArticle?mini=true&url=https://www.ahmedajaz.com"
+           target="_blank" rel="noopener noreferrer"
+           class="text-blue-600 hover:text-blue-800">
+          <i class="fab fa-linkedin text-lg"></i>
+        </a>
+        <a href="https://twitter.com/intent/tweet?url=https://www.ahmedajaz.com&text=Check%20this%20out!"
+           target="_blank" rel="noopener noreferrer"
+           class="text-black hover:text-gray-700">
+          <i class="fab fa-x-twitter text-lg"></i>
+        </a>
+        <a href="https://wa.me/?text=https://www.ahmedajaz.com"
+           target="_blank" rel="noopener noreferrer"
+           class="text-green-500 hover:text-green-700">
+          <i class="fab fa-whatsapp text-lg"></i>
+        </a>
+     </div>
+      <button
+        onclick="navigator.share && navigator.share({ title: 'Ahmed Ajaz', url: window.location.href })"
+        class="sm:hidden flex items-center gap-1 bg-gray-800 text-white text-sm px-2 py-1.5 rounded hover:bg-gray-900 transition ml-4">
+        <i class="fas fa-share-alt text-base"></i>
+        <span class="sr-only">Share</span>
+      </button>
+    </div>
+  </div>
+</nav>
+
+<!-- Blog Article -->
+<!-- Blog Article -->
+<section class="max-w-4xl mx-auto px-4 py-12">
+  <h2 class="text-3xl font-bold mb-4 text-gray-900">🔒 Why Identity Security Is Critical for AI Safety</h2>
+  <div class="text-sm text-gray-500 mb-4">
+    <span>🗓️ Published: August 2025</span>
+    <span class="mx-2">|</span>
+    <span>✍️ Author: Ajaz Ahmed</span>
+  </div>
+
+  <p class="text-lg text-gray-700 mb-6">
+    As organizations race to deploy AI agents that can retrieve data, trigger workflows, and make decisions, there’s a key risk that often stays in the background: identity security.
+  </p>
+
+  <p class="mb-6">
+    AI agents don’t just analyze, they act. And as soon as we give an AI agent permissions, tokens, and API keys, it becomes an identity in its own right.
+    If we don’t secure that identity, we open the door to:
+  </p>
+
+  <ul class="list-disc list-inside space-y-2 mb-6 text-gray-800">
+    <li>Over-permissioned AI agents that can do far more than intended</li>
+    <li>Leaked secrets or tokens that attackers can exploit</li>
+    <li>AI-driven actions that escape governance and oversight</li>
+  </ul>
+
+  <h3 class="text-2xl font-semibold mb-2">✅ Identity controls aren’t just for people anymore</h3>
+  <p class="mb-6">
+    Traditionally, identity programs focus on human users: joiners, movers, and leavers. We use RBAC to give people only what they need, MFA to verify access, access reviews to clean up old permissions, and secrets management to protect credentials.
+    But the same principles must apply to AI agents and service accounts, especially as AI agents become more autonomous and integrated into critical systems.
+  </p>
+
+  <h3 class="text-2xl font-semibold mb-2">Here’s how the controls evolve:</h3>
+  <div class="overflow-x-auto mb-6">
+    <table class="table-auto border-collapse w-full text-left">
+      <thead>
+        <tr>
+          <th class="border px-4 py-2 bg-gray-100">Traditional Identity Controls</th>
+          <th class="border px-4 py-2 bg-gray-100">AI Identity Controls for Safety</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td class="border px-4 py-2">Joiner-Mover-Leaver: Create, update, and remove user access</td><td class="border px-4 py-2">Apply the same lifecycle rigor to AI agents and service accounts</td></tr>
+        <tr><td class="border px-4 py-2">RBAC: Grant access based on job role</td><td class="border px-4 py-2">Limit AI agents to the absolute minimum access needed</td></tr>
+        <tr><td class="border px-4 py-2">MFA / Authentication: Verify users before granting access</td><td class="border px-4 py-2">Secure agent API keys, tokens, and tools</td></tr>
+        <tr><td class="border px-4 py-2">Access Reviews: Periodically check permissions</td><td class="border px-4 py-2">Catch over-permissioned AI agents before misuse</td></tr>
+        <tr><td class="border px-4 py-2">Privileged Account Controls: Protect admin accounts</td><td class="border px-4 py-2">Treat powerful AI agents like admins, apply zero standing privilege (ZSP)</td></tr>
+        <tr><td class="border px-4 py-2">Secrets Management: Rotate and protect credentials</td><td class="border px-4 py-2">Never hardcode secrets in AI workflows</td></tr>
+        <tr><td class="border px-4 py-2">Session Monitoring: Log user activity</td><td class="border px-4 py-2">Monitor AI agent activity; use ML to detect anomalies</td></tr>
+        <tr><td class="border px-4 py-2">Zero Trust: Never fully trust, always verify</td><td class="border px-4 py-2">Assign unique identities to each AI agent and assume breach</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p class="italic text-gray-600 mb-6">Credit: ISC2 Spotlight</p>
+
+  <h3 class="text-2xl font-semibold mb-2">🚀 Why this matters now</h3>
+  <p class="mb-4">Agentic AI isn’t theoretical anymore, it’s here:</p>
+  <ul class="list-disc list-inside space-y-2 mb-6 text-gray-800">
+    <li>AI agents integrating with SaaS APIs</li>
+    <li>Bots generating and sharing reports</li>
+    <li>Autonomous data analysis and workflow triggers</li>
+  </ul>
+
+  <p class="mb-6">
+    Without proper identity security:
+    <br>- An over-permissioned agent can cause large-scale data leaks
+    <br>- A leaked token can give attackers direct system access
+    <br>- AI actions become opaque and untraceable, undermining trust
+  </p>
+
+  <p class="mb-6">
+    By treating AI agents as first-class identities, we can:
+    <br>✅ Enforce least privilege
+    <br>✅ Detect and respond to misuse faster
+    <br>✅ Maintain compliance and auditability, even in complex AI systems
+  </p>
+
+  <h3 class="text-2xl font-semibold mb-2">🛠 Practical next steps</h3>
+  <ul class="list-disc list-inside space-y-2 mb-6 text-gray-800">
+    <li>Define joiner-mover-leaver for AI agents</li>
+    <li>Apply strict RBAC and access reviews</li>
+    <li>Use robust secrets management</li>
+    <li>Monitor agent sessions, not just human sessions</li>
+    <li>Build on a Zero Trust foundation</li>
+  </ul>
+
+  <p class="mb-6 font-semibold">Identity isn’t just about humans anymore, it’s about everything that acts.</p>
+
+  <div class="mt-10 space-x-6 text-blue-600 text-lg font-medium">
+    <a href="/blog" class="hover:underline inline-flex items-center">
+      <span class="mr-1">←</span> Go check other blogs
+    </a>
+    <a href="/contact" class="hover:underline">Share Feedback</a>
+  </div>
+</section>
+
+
+<!-- Footer -->
+<footer class="bg-gray-800 text-gray-200 py-6 text-center">
+  <p>&copy; 2025 Ajaz Ahmed | Identity & Cloud Security Blog</p>
+</footer>
+
+</body>
+</html>
