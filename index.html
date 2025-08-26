@@ -285,30 +285,10 @@
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.5.2/firebase-app.js";
   import { getAuth, onAuthStateChanged, signOut, sendPasswordResetEmail } from "https://www.gstatic.com/firebasejs/10.5.2/firebase-auth.js";
-  import { getDatabase, ref, runTransaction } from "https://www.gstatic.com/firebasejs/10.5.2/firebase-database.js";
+  import { getDatabase, ref, runTransaction, push } from "https://www.gstatic.com/firebasejs/10.5.2/firebase-database.js";
   import { getMessaging, getToken, onMessage } from "https://www.gstatic.com/firebasejs/10.5.2/firebase-messaging.js";
-  import { getDatabase, ref, push } from "https://www.gstatic.com/firebasejs/10.5.2/firebase-database.js";
-  // Reference to 'subscribers' node
-  const subscribersRef = ref(database, 'subscribers');
-  
-const messaging = getMessaging(app);
 
-// Request permission and get token
-Notification.requestPermission().then(permission => {
-  if (permission === 'granted') {
-    getToken(messaging, { vapidKey: 'YOUR_VAPID_KEY_HERE' }).then((currentToken) => {
-      if (currentToken) {
-        console.log("FCM token:", currentToken);
-        // Save token to Firebase database for this subscriber
-      }
-    });
-  }
-});
-
-// Listen for messages while the app is in foreground
-onMessage(messaging, (payload) => {
-  console.log('Message received. ', payload);
-});
+  // --- Firebase Config ---
   const firebaseConfig = {
     apiKey: "AIzaSyCpMG4Dre9ykCTKnwKMZKknVLu6TX6foLw",
     authDomain: "ahmedajaz-login.firebaseapp.com",
@@ -318,34 +298,58 @@ onMessage(messaging, (payload) => {
   };
 
   const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+  const database = getDatabase(app);
 
+  // --- Visitor Counter ---
+  function incrementVisitorCount() {
+    const countRef = ref(database, "visitorCount");
 
-//visitor count
-const database = getDatabase(app);
-
-function incrementVisitorCount() {
-  const countRef = ref(database, 'visitorCount');
-
-  // Use a transaction to safely increment count
-  runTransaction(countRef, (currentCount) => {
-    return (currentCount || 0) + 1;
-  }).then((result) => {
-    if (result.committed) {
-      const newCount = result.snapshot.val();
-      console.log("Visitor count updated to:", newCount);
-
-      // Show count somewhere on the page - for example inside a new element with id visitor-count
-      const countDisplay = document.getElementById('visitor-count');
-      if (countDisplay) {
-        countDisplay.textContent = newCount;
+    runTransaction(countRef, (currentCount) => {
+      return (currentCount || 0) + 1;
+    }).then((result) => {
+      if (result.committed) {
+        const newCount = result.snapshot.val();
+        const countDisplay = document.getElementById("visitor-count");
+        if (countDisplay) countDisplay.textContent = newCount;
       }
-    }
-  }).catch((error) => {
-    console.error("Transaction failed:", error);
-  });
-}
+    }).catch((error) => {
+      console.error("Transaction failed:", error);
+    });
+  }
+  incrementVisitorCount();
 
-incrementVisitorCount();
+  // --- Firebase Messaging (Push Notifications) ---
+  const messaging = getMessaging(app);
+
+  Notification.requestPermission().then(permission => {
+    if (permission === "granted") {
+      getToken(messaging, {
+        vapidKey: "BHNpLF1MdiCyegKXkHovHCQPrtbqAj9Hd7-N_mDiZAnAgV7Qg3UjBDu5-E13Vw-R8usoXpAwOWkqqcwnJjY3d2w"
+      }).then((currentToken) => {
+        if (currentToken) {
+          console.log("✅ FCM token:", currentToken);
+          // Save token in DB (optional)
+          push(ref(database, "fcmTokens"), {
+            token: currentToken,
+            timestamp: Date.now()
+          });
+        } else {
+          console.warn("⚠️ No registration token available.");
+        }
+      }).catch((err) => {
+        console.error("❌ Error retrieving token:", err);
+      });
+    } else {
+      console.log("🚫 Notifications not granted by user.");
+    }
+  });
+
+  // Listen for foreground messages
+  onMessage(messaging, (payload) => {
+    console.log("📩 Message received:", payload);
+    alert(`🔔 ${payload.notification?.title || "Update"} - ${payload.notification?.body || ""}`);
+  });
 
 //Oauth login
   const auth = getAuth(app);
