@@ -292,8 +292,7 @@
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.5.2/firebase-app.js";
   import { getAuth, onAuthStateChanged, signOut, sendPasswordResetEmail } from "https://www.gstatic.com/firebasejs/10.5.2/firebase-auth.js";
   import { getDatabase, ref, runTransaction, push } from "https://www.gstatic.com/firebasejs/10.5.2/firebase-database.js";
-  import { getMessaging, getToken, onMessage } from "https://www.gstatic.com/firebasejs/10.5.2/firebase-messaging.js";
-
+  
   const firebaseConfig = {
     apiKey: "AIzaSyCpMG4Dre9ykCTKnwKMZKknVLu6TX6foLw",
     authDomain: "ahmedajaz-login.firebaseapp.com",
@@ -324,37 +323,7 @@
   }
   incrementVisitorCount();
 
-  // --- Firebase Messaging (Push Notifications) ---
-  const messaging = getMessaging(app);
-
-  Notification.requestPermission().then(permission => {
-    if (permission === "granted") {
-      getToken(messaging, {
-        vapidKey: "BHNpLF1MdiCyegKXkHovHCQPrtbqAj9Hd7-N_mDiZAnAgV7Qg3UjBDu5-E13Vw-R8usoXpAwOWkqqcwnJjY3d2w"
-      }).then((currentToken) => {
-        if (currentToken) {
-          console.log("✅ FCM token:", currentToken);
-          // Save token in DB (optional)
-          push(ref(database, "fcmTokens"), {
-            token: currentToken,
-            timestamp: Date.now()
-          });
-        } else {
-          console.warn("⚠️ No registration token available.");
-        }
-      }).catch((err) => {
-        console.error("❌ Error retrieving token:", err);
-      });
-    } else {
-      console.log("🚫 Notifications not granted by user.");
-    }
-  });
-
-  // Listen for foreground messages
-  onMessage(messaging, (payload) => {
-    console.log("📩 Message received:", payload);
-    alert(`🔔 ${payload.notification?.title || "Update"} - ${payload.notification?.body || ""}`);
-  });
+  
 
 //Oauth login
   const authControl = document.getElementById("auth-control");
