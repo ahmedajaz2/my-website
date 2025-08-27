@@ -307,9 +307,9 @@
 
     runTransaction(countRef, (currentCount) => {
       return (currentCount || 0) + 1;
-    }).then((result) => {
-      if (result.committed) {
-        const newCount = result.snapshot.val();
+	}).then(({ committed, snapshot }) => {
+	if (committed) {
+		const newCount = snapshot.val();
         const countDisplay = document.getElementById("visitor-count");
         if (countDisplay) countDisplay.textContent = newCount;
       }
