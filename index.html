@@ -253,42 +253,52 @@
 
 <script>
   document.addEventListener("DOMContentLoaded", function () {
-  const form = document.getElementById("subscribe-form");
-  const emailInput = document.getElementById("subscribe-email");
-  const message = document.getElementById("subscribe-message");
+    const form = document.getElementById("subscribe-form");
+    const emailInput = document.getElementById("subscribe-email");
+    const message = document.getElementById("subscribe-message");
 
-  form.addEventListener("submit", function (e) {
-    e.preventDefault();
+    form.addEventListener("submit", function (e) {
+      e.preventDefault();
 
-    const email = emailInput.value.trim();
-    const isValidEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
-    if (!isValidEmail) {
-      alert("Please enter a valid email address.");
-      return;
-    }
+      const email = emailInput.value.trim();
+      const isValidEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+      if (!isValidEmail) {
+        alert("Please enter a valid email address.");
+        return;
+      }
 
-    // Save to Firebase
-    push(ref(database, 'subscribers'), { email: email, timestamp: Date.now() })
-      .then(() => {
-        form.reset();
-        message.classList.remove("hidden");
-        setTimeout(() => message.classList.add("hidden"), 5000);
+      fetch(form.action, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email })
       })
-      .catch(err => {
-        console.error(err);
-        alert("Failed to subscribe. Please try again.");
+      .then(response => {
+        if (response.ok) {
+          form.reset();
+          message.classList.remove("hidden");
+        } else {
+          alert("Failed to subscribe. Please try again.");
+        }
+      })
+      .catch(error => {
+        alert("An error occurred. Please try again.");
+        console.error(error);
       });
+    });
   });
-});
-
 </script>
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.5.2/firebase-app.js";
   import { getAuth, onAuthStateChanged, signOut, sendPasswordResetEmail } from "https://www.gstatic.com/firebasejs/10.5.2/firebase-auth.js";
+<<<<<<< HEAD
   import { getDatabase, ref, runTransaction, push } from "https://www.gstatic.com/firebasejs/10.5.2/firebase-database.js";
   import { getMessaging, getToken, onMessage } from "https://www.gstatic.com/firebasejs/10.5.2/firebase-messaging.js";
 
   // --- Firebase Config ---
+=======
+  import { getDatabase, ref, runTransaction } from "https://www.gstatic.com/firebasejs/10.5.2/firebase-database.js";
+
+>>>>>>> parent of 5fc4081 (Update index.html)
   const firebaseConfig = {
     apiKey: "AIzaSyCpMG4Dre9ykCTKnwKMZKknVLu6TX6foLw",
     authDomain: "ahmedajaz-login.firebaseapp.com",
