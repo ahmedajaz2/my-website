@@ -33,6 +33,14 @@
     "url": "/blog/ai-safety",
     "published": "August 2025",
     "icon": "🤖"
-  }
+  },
+{
+  "title": "Human-in-the-Loop Power App for SAM",
+  "description": "Learn how a human-in-the-loop Power App integrates PowerApps, Copilot Studio, and Generative AI workflows to help SAM teams manage applications, suppliers, and contracts efficiently while maintaining oversight and enabling data-driven decisions.",
+  "url": "/blog/sam-powerapp",
+  "published": "September 2025",
+  "icon": "💻"
+}
+
 
 ]
