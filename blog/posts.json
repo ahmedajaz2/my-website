@@ -45,7 +45,7 @@
   {
     "title": "Zero Trust Strategy for Identity Security",
     "description": "Explore how implementing a Zero Trust framework strengthens identity security by enforcing least privilege, adaptive access, and continuous verification across users, devices, and workloads.",
-    "url": "/blog/zero-trust-strategy",
+    "url": "/blog/zero-trust-identity",
     "published": "October 2025",
     "icon": "🧩"
   }
