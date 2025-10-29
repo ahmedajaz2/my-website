@@ -1,4 +1,5 @@
 [
+  
   {
     "title": "Modernizing IAM with Entra ID",
     "description": "Learn how I used Entra ID to automate IAM workflows, including Access Packages, JIT access, and recurring reviews—reducing manual overhead by 80% and improving audit readiness.",
@@ -34,13 +35,20 @@
     "published": "August 2025",
     "icon": "🤖"
   },
-{
+  {
   "title": "Human-in-the-Loop Power App for SAM",
   "description": "Learn how a human-in-the-loop Power App integrates PowerApps, Copilot Studio, and Generative AI workflows to help SAM teams manage applications, suppliers, and contracts efficiently while maintaining oversight and enabling data-driven decisions.",
   "url": "/blog/sam-powerapp",
   "published": "September 2025",
   "icon": "💻"
-}
+  },
+  {
+    "title": "Zero Trust Strategy for Identity Security",
+    "description": "Explore how implementing a Zero Trust framework strengthens identity security by enforcing least privilege, adaptive access, and continuous verification across users, devices, and workloads.",
+    "url": "/blog/zero-trust-strategy",
+    "published": "October 2025",
+    "icon": "🧩"
+  }
 
 
 ]
