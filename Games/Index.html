@@ -26,7 +26,9 @@
   width: 28px;
   height: 28px;
   border-radius: 50%;
-  background: cyan;
+  background: linear-gradient(to bottom, #38bdf8, #0ea5e9);
+  border-radius: 40% 60% 60% 40%;
+  position: relative;
   bottom: 60px;
   box-shadow: 0 0 20px cyan;
 }
@@ -34,18 +36,22 @@
 .obstacle {
   position: absolute;
   border-radius: 50%;
-  background: red;
-  box-shadow: 0 0 20px red;
+  background: linear-gradient(to bottom, #9ca3af, #374151);
+  clip-path: polygon(50% 0%, 100% 40%, 85% 100%, 15% 100%, 0% 40%);
+  box-shadow: 0 0 20px rgba(255,0,0,0.5);
 }
 
   </style>
 </head>
-<body class="flex flex-col items-center justify-center min-h-screen text-white">  <h1 class="text-5xl font-black mb-2">ORB RUSH</h1>
-  <p class="text-gray-400 mb-4">Dodge the falling orbs and survive.</p>  <div class="flex gap-4 mb-4 text-sm">
+<body class="flex flex-col items-center justify-center min-h-screen text-white">  <h1 class="text-5xl font-black mb-2">OCEAN RUSH</h1>
+  <p class="text-gray-400 mb-4">Guide your fish through dangerous sharks and survive the ocean rush.</p>  <div class="flex gap-4 mb-4 text-sm">
     <div class="bg-gray-900 px-4 py-2 rounded-xl">Score: <span id="score">0</span></div>
     <div class="bg-gray-900 px-4 py-2 rounded-xl">High: <span id="highScore">0</span></div>
   </div>  <div id="gameArea">
-    <div id="player" class="player"></div><div id="startScreen" class="absolute inset-0 bg-black/70 flex flex-col items-center justify-center z-10">
+    <div id="player" class="player">
+      <div style="position:absolute; right:-6px; top:8px; width:0; height:0; border-top:6px solid transparent; border-bottom:6px solid transparent; border-left:10px solid #0ea5e9;"></div>
+      <div style="position:absolute; left:6px; top:9px; width:4px; height:4px; background:black; border-radius:50%;"></div>
+    </div><div id="startScreen" class="absolute inset-0 bg-black/70 flex flex-col items-center justify-center z-10">
   <button id="startBtn" class="bg-cyan-400 text-black font-bold px-6 py-3 rounded-2xl text-xl hover:scale-105 transition">
     Start Game
   </button>
@@ -122,6 +128,7 @@
       const obstacle = document.createElement('div');
 
       obstacle.classList.add('obstacle');
+      obstacle.innerHTML = `<div style="position:absolute; top:-6px; left:50%; transform:translateX(-50%); width:0; height:0; border-left:10px solid transparent; border-right:10px solid transparent; border-bottom:14px solid #374151;"></div>`;
       obstacle.style.width = size + 'px';
       obstacle.style.height = size + 'px';
 
