@@ -24,10 +24,10 @@ canvas{position:absolute;top:0;left:0;width:390px;height:580px;}
 .btn-start{background:linear-gradient(135deg,#00c8ff,#0060bb);color:#fff;}
 .btn-restart{background:linear-gradient(135deg,#ff4fa3,#bb006e);color:#fff;}
 /* Joystick inside game area */
-#joystickBase{position:absolute;bottom:18px;left:18px;z-index:20;width:90px;height:90px;border-radius:50%;background:rgba(180,220,255,0.10);border:1.5px solid rgba(180,220,255,0.22);pointer-events:none;}
-#joystickThumb{position:absolute;width:38px;height:38px;border-radius:50%;background:rgba(200,235,255,0.28);border:1.5px solid rgba(200,235,255,0.45);top:50%;left:50%;transform:translate(-50%,-50%);pointer-events:none;transition:background 0.1s;}
+#joystickBase{position:absolute;bottom:18px;left:18px;z-index:20;width:130px;height:130px;border-radius:50%;background:rgba(180,220,255,0.10);border:1.5px solid rgba(180,220,255,0.22);pointer-events:none;}
+#joystickThumb{position:absolute;width:52px;height:52px;border-radius:50%;background:rgba(200,235,255,0.28);border:1.5px solid rgba(200,235,255,0.45);top:50%;left:50%;transform:translate(-50%,-50%);pointer-events:none;transition:background 0.1s;}
 #joystickThumb.active{background:rgba(200,235,255,0.42);}
-#joystickZone{position:absolute;bottom:0;left:0;z-index:19;width:160px;height:160px;}
+#joystickZone{position:absolute;bottom:0;left:0;z-index:19;width:220px;height:220px;}
 #du{grid-column:2;grid-row:1;}#dl{grid-column:1;grid-row:2;}#dd{grid-column:2;grid-row:2;}#dr{grid-column:3;grid-row:2;}
 /* FIRE BUTTON */
 #fireBtn{position:absolute;bottom:14px;right:14px;z-index:20;width:68px;height:68px;border-radius:50%;background:radial-gradient(circle at 35% 35%,rgba(255,106,0,0.80),rgba(180,30,0,0.72));border:2.5px solid rgba(255,144,64,0.65);color:#fff;font-size:11px;font-weight:900;cursor:pointer;user-select:none;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1px;box-shadow:0 0 12px rgba(255,100,0,0.4);-webkit-tap-highlight-color:transparent;letter-spacing:1px;}
@@ -605,30 +605,40 @@ function loop(){
 const joyBase  = document.getElementById('joystickBase');
 const joyThumb = document.getElementById('joystickThumb');
 const joyZone  = document.getElementById('joystickZone');
-const JOY_R    = 45;   // base radius
-const JOY_DEAD = 4;    // dead zone px
+const JOY_R    = 65;   // base radius (matches half of 130px CSS size)
+const JOY_DEAD = 6;    // dead zone px
+const JOY_SENS = 0.55; // sensitivity multiplier (1=full, lower=slower)
 let joyActive=false, joyDx=0, joyDy=0;
+
+let joyBaseX=0, joyBaseY=0; // anchor point set on touch start
 
 function joyStart(cx,cy){
   joyActive=true;
   joyThumb.classList.add('active');
+  // Snap the visual base to where the finger landed
+  const zoneRect=joyZone.getBoundingClientRect();
+  joyBaseX=cx;
+  joyBaseY=cy;
+  // Reposition the joystick base visually inside the game area
+  const gameRect=gameAreaEl.getBoundingClientRect();
+  joyBase.style.left=(cx-gameRect.left-JOY_R)+'px';
+  joyBase.style.top =(cy-gameRect.top -JOY_R)+'px';
+  joyBase.style.bottom='auto';
   joyMove(cx,cy);
 }
 function joyMove(cx,cy){
   if(!joyActive)return;
-  const rect=joyZone.getBoundingClientRect();
-  // zone origin = bottom-left of gameArea, same as joystickZone
-  const baseX=rect.left+JOY_R, baseY=rect.bottom-JOY_R;
-  let dx=cx-baseX, dy=cy-baseY;
+  // dx/dy relative to the anchor where the finger first touched
+  let dx=cx-joyBaseX, dy=cy-joyBaseY;
   const dist=Math.sqrt(dx*dx+dy*dy);
   const clamped=Math.min(dist,JOY_R-4);
   const nx=dist>0?dx/dist:0, ny=dist>0?dy/dist:0;
-  // position thumb
+  // position thumb inside the base circle
   joyThumb.style.left=(JOY_R+nx*clamped)+'px';
   joyThumb.style.top= (JOY_R+ny*clamped)+'px';
   joyThumb.style.transform='translate(-50%,-50%)';
-  joyDx = dist>JOY_DEAD ? nx : 0;
-  joyDy = dist>JOY_DEAD ? ny : 0;
+  joyDx = dist>JOY_DEAD ? nx*JOY_SENS : 0;
+  joyDy = dist>JOY_DEAD ? ny*JOY_SENS : 0;
 }
 function joyEnd(){
   joyActive=false;
@@ -636,6 +646,10 @@ function joyEnd(){
   joyThumb.classList.remove('active');
   joyThumb.style.left='50%';joyThumb.style.top='50%';
   joyThumb.style.transform='translate(-50%,-50%)';
+  // Reset base to default position
+  joyBase.style.left='18px';
+  joyBase.style.top='auto';
+  joyBase.style.bottom='18px';
 }
 
 // Touch events on the joystick zone
@@ -906,6 +920,16 @@ window.endGame=function(){
     });
   }catch(e){}
 };
+
+// ── Pause audio when page is hidden (minimized / tab switch) ──
+document.addEventListener('visibilitychange',()=>{
+  if(document.hidden){
+    pauseMusic();
+  } else {
+    // Only resume if the game is actually running and not paused by the player
+    if(gameRunning && !paused) resumeMusic();
+  }
+});
 
 // Stage intensity updates — patch into stage check
 const _origLoop=loop;
