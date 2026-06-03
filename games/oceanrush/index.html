@@ -24,8 +24,8 @@ canvas{position:absolute;top:0;left:0;width:390px;height:580px;}
 .btn-start{background:linear-gradient(135deg,#00c8ff,#0060bb);color:#fff;}
 .btn-restart{background:linear-gradient(135deg,#ff4fa3,#bb006e);color:#fff;}
 /* Joystick inside game area */
-#joystickBase{position:absolute;bottom:18px;left:18px;z-index:20;width:130px;height:130px;border-radius:50%;background:rgba(180,220,255,0.10);border:1.5px solid rgba(180,220,255,0.22);pointer-events:none;}
-#joystickThumb{position:absolute;width:52px;height:52px;border-radius:50%;background:rgba(200,235,255,0.28);border:1.5px solid rgba(200,235,255,0.45);top:50%;left:50%;transform:translate(-50%,-50%);pointer-events:none;transition:background 0.1s;}
+#joystickBase{position:absolute;bottom:18px;left:18px;z-index:20;width:130px;height:130px;border-radius:50%;background:rgba(180,220,255,0.10);border:1.5px solid rgba(180,220,255,0.22);pointer-events:none;will-change:transform;}
+#joystickThumb{position:absolute;width:52px;height:52px;border-radius:50%;background:rgba(200,235,255,0.28);border:1.5px solid rgba(200,235,255,0.45);top:50%;left:50%;transform:translate(-50%,-50%);pointer-events:none;transition:background 0.1s;will-change:transform;}
 #joystickThumb.active{background:rgba(200,235,255,0.42);}
 #joystickZone{position:absolute;bottom:0;left:0;z-index:19;width:220px;height:220px;}
 #du{grid-column:2;grid-row:1;}#dl{grid-column:1;grid-row:2;}#dd{grid-column:2;grid-row:2;}#dr{grid-column:3;grid-row:2;}
@@ -192,7 +192,38 @@ function drawBullet(c,bx,by){
   c.restore();
 }
 
-// ── EXPLOSION ──
+// ── MINE ──
+function drawMine(c,mx,my,r,frame){
+  c.save();c.translate(mx,my);
+  // Pulsing glow ring
+  const pulse=0.6+0.4*Math.sin(frame*0.08);
+  const glow=c.createRadialGradient(0,0,r*0.8,0,0,r*1.8);
+  glow.addColorStop(0,`rgba(255,60,60,${0.18*pulse})`);
+  glow.addColorStop(1,'rgba(255,0,0,0)');
+  c.fillStyle=glow;c.beginPath();c.arc(0,0,r*1.8,0,Math.PI*2);c.fill();
+  // Spikes
+  c.strokeStyle='#cc2200';c.lineWidth=2.5;c.lineCap='round';
+  for(let i=0;i<8;i++){
+    const a=i*Math.PI/4+(frame*0.005);
+    c.beginPath();c.moveTo(Math.cos(a)*r,Math.sin(a)*r);c.lineTo(Math.cos(a)*(r+7),Math.sin(a)*(r+7));c.stroke();
+  }
+  // Body
+  const mg=c.createRadialGradient(-r*0.3,-r*0.3,r*0.05,0,0,r);
+  mg.addColorStop(0,'#888898');mg.addColorStop(0.5,'#444455');mg.addColorStop(1,'#222230');
+  c.fillStyle=mg;c.beginPath();c.arc(0,0,r,0,Math.PI*2);c.fill();
+  c.strokeStyle='#111120';c.lineWidth=1.5;c.beginPath();c.arc(0,0,r,0,Math.PI*2);c.stroke();
+  // Blinking light
+  const blink=Math.sin(frame*0.18)>0;
+  c.fillStyle=blink?'#ff2200':'#550000';
+  c.beginPath();c.arc(0,0,r*0.28,0,Math.PI*2);c.fill();
+  c.fillStyle=blink?'rgba(255,80,0,0.7)':'rgba(80,0,0,0)';
+  c.beginPath();c.arc(0,0,r*0.42,0,Math.PI*2);c.fill();
+  // Sheen
+  c.fillStyle='rgba(255,255,255,0.12)';c.beginPath();c.ellipse(-r*0.28,-r*0.32,r*0.3,r*0.16,0,0,Math.PI*2);c.fill();
+  c.restore();
+}
+
+
 function drawExplosion(c,ex,ey,progress){
   // progress 0..1
   const r=28*progress;
@@ -339,9 +370,9 @@ const PR=20;
 const BULLET_SPD=10;
 const FIRE_COOLDOWN=280; // ms between shots
 let px=W/2,py=H-90;
-let enemies=[],bullets=[],explosions=[],scorePopups=[];
+let enemies=[],bullets=[],explosions=[],scorePopups=[],mines=[];
 let score=0,stage=0,lives=3,gameRunning=false,paused=false;
-let spawnInt,animFr,frame=0;
+let spawnInt,mineSpawnInt,animFr,frame=0;
 let lastFireTime=0;
 let highScore=0;
 try{highScore=parseInt(localStorage.getItem('oceanRushV10')||'0');}catch(e){}
@@ -350,6 +381,54 @@ document.getElementById('highEl').textContent=highScore;
 const PLAYER_MOVE=3.8;
 const keys={ArrowLeft:false,ArrowRight:false,ArrowUp:false,ArrowDown:false};
 let fireHeld=false;
+
+const MINE_R=14;
+const MINE_BLAST_R=80; // chain-kill radius
+const MINE_SPD=1.3;    // straight-line drift speed
+
+function triggerMineBlast(mx,my){
+  // Big explosion visual
+  explosions.push({x:mx,y:my,life:0,type:'mine'});
+  playMineBlastSound();
+  // Kill all enemies within blast radius
+  for(let i=enemies.length-1;i>=0;i--){
+    const e=enemies[i];
+    const dx=e.x-mx,dy=e.y-my;
+    if(Math.sqrt(dx*dx+dy*dy)<MINE_BLAST_R+e.r){
+      const pts=calcPts(e);
+      score+=pts;
+      document.getElementById('scoreEl').textContent=score;
+      spawnPopup(e.x,e.y,pts,'#ff8800');
+      explosions.push({x:e.x,y:e.y,life:0,type:'enemy'});
+      enemies.splice(i,1);
+    }
+  }
+  // Chain: trigger other mines in range
+  for(let i=mines.length-1;i>=0;i--){
+    const m=mines[i];
+    if(m.blasting)continue;
+    const dx=m.x-mx,dy=m.y-my;
+    if(Math.sqrt(dx*dx+dy*dy)<MINE_BLAST_R+MINE_R){
+      m.blasting=true;
+      setTimeout(()=>{
+        const idx=mines.indexOf(m);
+        if(idx!==-1){mines.splice(idx,1);triggerMineBlast(m.x,m.y);}
+      },120);
+    }
+  }
+}
+
+function spawnMine(){
+  if(!gameRunning||paused)return;
+  // Mines start from any edge, drift in a straight line across screen
+  // 0=top, 1=right side (upper half), 2=left side (upper half) — never from bottom
+  const side=Math.floor(Math.random()*3);
+  let x,y,vx,vy;
+  if(side===0){x=MINE_R+Math.random()*(W-MINE_R*2);y=-MINE_R*2;vx=(Math.random()-0.5)*0.6;vy=MINE_SPD;}
+  else if(side===1){x=W+MINE_R*2;y=MINE_R+Math.random()*(H/2-MINE_R*2);vx=-MINE_SPD;vy=(Math.random()-0.5)*0.6;}
+  else{x=-MINE_R*2;y=MINE_R+Math.random()*(H/2-MINE_R*2);vx=MINE_SPD;vy=(Math.random()-0.5)*0.6;}
+  mines.push({x,y,vx,vy,frame:0,blasting:false});
+}
 
 function updateLivesUI(){
   const el=document.getElementById('livesEl');
@@ -379,7 +458,7 @@ function spawnPopup(x,y,pts,color){
 }
 
 function startGame(){
-  score=0;stage=0;lives=3;enemies=[];bullets=[];explosions=[];scorePopups=[];px=W/2;py=H-90;frame=0;
+  score=0;stage=0;lives=3;enemies=[];bullets=[];explosions=[];scorePopups=[];mines=[];px=W/2;py=H-90;frame=0;
   gameRunning=true;paused=false;lastFireTime=0;invincible=false;invincibleFrames=0;
   joyEnd();
   document.getElementById('scoreEl').textContent=0;
@@ -389,13 +468,14 @@ function startGame(){
   document.getElementById('overScreen').style.display='none';
   document.getElementById('pauseScreen').style.display='none';
   stageBanner.style.opacity='0';
-  clearInterval(spawnInt);
+  clearInterval(spawnInt);clearInterval(mineSpawnInt);
   spawnInt=setInterval(spawnEnemy,STAGES[0].interval);
+  mineSpawnInt=setInterval(spawnMine,4500);
   requestAnimationFrame(loop);
 }
 
 function endGame(){
-  gameRunning=false;clearInterval(spawnInt);cancelAnimationFrame(animFr);
+  gameRunning=false;clearInterval(spawnInt);clearInterval(mineSpawnInt);cancelAnimationFrame(animFr);
   if(score>highScore){highScore=score;try{localStorage.setItem('oceanRushV10',highScore);}catch(e){}document.getElementById('highEl').textContent=highScore;}
   document.getElementById('finalScore').textContent=score;
   document.getElementById('finalStage').textContent=stage+1;
@@ -439,6 +519,24 @@ function playHitSound(){
       o.connect(e);e.connect(ctx.destination);
       o.start(t+0.08+i*0.1);o.stop(t+0.26+i*0.1);
     });
+  }catch(e){}
+}
+
+function playMineBlastSound(){
+  try{
+    const c=getAudioCtx(),t=c.currentTime;
+    // Deep thud
+    const o=c.createOscillator(),e=c.createGain();
+    o.type='sine';o.frequency.setValueAtTime(120,t);o.frequency.exponentialRampToValueAtTime(28,t+0.4);
+    e.gain.setValueAtTime(0.7,t);e.gain.exponentialRampToValueAtTime(0.0001,t+0.5);
+    o.connect(e);e.connect(c.destination);o.start(t);o.stop(t+0.55);
+    // Noise burst
+    const bufLen=c.sampleRate*0.25,nb=c.createBuffer(1,bufLen,c.sampleRate);
+    const nd=nb.getChannelData(0);for(let i=0;i<bufLen;i++)nd[i]=(Math.random()*2-1)*Math.pow(1-i/bufLen,1.2);
+    const ns=c.createBufferSource();ns.buffer=nb;
+    const nf=c.createBiquadFilter();nf.type='bandpass';nf.frequency.value=300;nf.Q.value=0.4;
+    const ne=c.createGain();ne.gain.setValueAtTime(0.4,t);ne.gain.exponentialRampToValueAtTime(0.0001,t+0.25);
+    ns.connect(nf);nf.connect(ne);ne.connect(c.destination);ns.start(t);ns.stop(t+0.28);
   }catch(e){}
 }
 
@@ -498,8 +596,9 @@ function loop(){
     stage=newSt;
     document.getElementById('stageEl').textContent=stage+1;
     showStageBanner(stage+1);
-    clearInterval(spawnInt);
+    clearInterval(spawnInt);clearInterval(mineSpawnInt);
     spawnInt=setInterval(spawnEnemy,STAGES[stage].interval);
+    mineSpawnInt=setInterval(spawnMine,Math.max(2000,4500-stage*300));
   }
 
   // Player movement — joystick takes priority, arrow keys as fallback
@@ -576,9 +675,60 @@ function loop(){
   // ── Explosions ──
   for(let i=explosions.length-1;i>=0;i--){
     const ex2=explosions[i];
-    ex2.life+=0.07;
-    drawExplosion(ctx,ex2.x,ex2.y,ex2.life);
+    ex2.life+=ex2.type==='mine'?0.04:0.07;
+    const maxR=ex2.type==='mine'?MINE_BLAST_R:28;
+    // draw mine blast as big expanding ring
+    if(ex2.type==='mine'){
+      const r2=maxR*ex2.life;
+      ctx.save();ctx.translate(ex2.x,ex2.y);
+      ctx.strokeStyle=`rgba(255,${Math.floor(180*(1-ex2.life))},0,${1-ex2.life})`;
+      ctx.lineWidth=6*(1-ex2.life)+1;
+      ctx.beginPath();ctx.arc(0,0,r2,0,Math.PI*2);ctx.stroke();
+      const g2=ctx.createRadialGradient(0,0,0,0,0,r2*0.7);
+      g2.addColorStop(0,`rgba(255,255,100,${0.5*(1-ex2.life)})`);
+      g2.addColorStop(1,'rgba(255,80,0,0)');
+      ctx.fillStyle=g2;ctx.beginPath();ctx.arc(0,0,r2*0.7,0,Math.PI*2);ctx.fill();
+      // Shockwave ring
+      ctx.strokeStyle=`rgba(255,200,50,${0.4*(1-ex2.life)})`;
+      ctx.lineWidth=3;ctx.beginPath();ctx.arc(0,0,r2*1.15,0,Math.PI*2);ctx.stroke();
+      ctx.restore();
+    } else {
+      drawExplosion(ctx,ex2.x,ex2.y,ex2.life);
+    }
     if(ex2.life>=1)explosions.splice(i,1);
+  }
+
+  // ── Mines ──
+  for(let i=mines.length-1;i>=0;i--){
+    const m=mines[i];
+    if(m.blasting)continue;
+    m.x+=m.vx;m.y+=m.vy;m.frame++;
+    // Off screen — remove
+    if(m.x<-MINE_R*3||m.x>W+MINE_R*3||m.y<-MINE_R*3||m.y>H+MINE_R*3){mines.splice(i,1);continue;}
+    drawMine(ctx,m.x,m.y,MINE_R,m.frame);
+    // Bullet hits mine → blast
+    let hitByBullet=false;
+    for(let bi=bullets.length-1;bi>=0;bi--){
+      const b=bullets[bi];
+      const dx=b.x-m.x,dy=b.y-m.y;
+      if(Math.sqrt(dx*dx+dy*dy)<MINE_R+6){
+        bullets.splice(bi,1);
+        mines.splice(i,1);
+        triggerMineBlast(m.x,m.y);
+        hitByBullet=true;
+        break;
+      }
+    }
+    if(hitByBullet)continue;
+    // Player touches mine → lose life + blast
+    if(!invincible){
+      const dx=m.x-px,dy=m.y-py;
+      if(Math.sqrt(dx*dx+dy*dy)<MINE_R+PR*0.8){
+        mines.splice(i,1);
+        triggerMineBlast(m.x,m.y);
+        loseLife();
+      }
+    }
   }
 
   // ── Tick invincibility blink ──
@@ -612,31 +762,48 @@ let joyActive=false, joyDx=0, joyDy=0;
 
 let joyBaseX=0, joyBaseY=0; // anchor point set on touch start
 
+// Pending visual state — applied once per rAF, never inside touch handler
+let _joyPendingVisual=false, _joyThumbTX=0, _joyThumbTY=0;
+let _joyBaseTX=0, _joyBaseTY=0, _joyBaseRepositioned=false;
+// Cache gameArea rect — only read it on touch start (avoids forced layout on move)
+let _gameRect={left:0,top:0};
+
+function _applyJoyVisual(){
+  _joyPendingVisual=false;
+  if(_joyBaseRepositioned){
+    // Use transform to move base — no layout reflow
+    joyBase.style.transform=`translate(${_joyBaseTX}px,${_joyBaseTY}px)`;
+    _joyBaseRepositioned=false;
+  }
+  // Thumb offset within the base — pure transform, GPU composited
+  joyThumb.style.transform=`translate(calc(-50% + ${_joyThumbTX}px), calc(-50% + ${_joyThumbTY}px))`;
+}
+
 function joyStart(cx,cy){
   joyActive=true;
   joyThumb.classList.add('active');
-  // Snap the visual base to where the finger landed
-  const zoneRect=joyZone.getBoundingClientRect();
+  // Read layout ONCE here, not on every move
+  _gameRect=gameAreaEl.getBoundingClientRect();
   joyBaseX=cx;
   joyBaseY=cy;
-  // Reposition the joystick base visually inside the game area
-  const gameRect=gameAreaEl.getBoundingClientRect();
-  joyBase.style.left=(cx-gameRect.left-JOY_R)+'px';
-  joyBase.style.top =(cy-gameRect.top -JOY_R)+'px';
-  joyBase.style.bottom='auto';
+  // Reposition base via transform relative to its default bottom-left position
+  _joyBaseTX=(cx-_gameRect.left-JOY_R)-18;
+  _joyBaseTY=(cy-_gameRect.top -JOY_R)-((_gameRect.height||580)-JOY_R*2-18);
+  _joyBaseRepositioned=true;
+  _joyThumbTX=0;_joyThumbTY=0;
+  if(!_joyPendingVisual){_joyPendingVisual=true;requestAnimationFrame(_applyJoyVisual);}
   joyMove(cx,cy);
 }
 function joyMove(cx,cy){
   if(!joyActive)return;
-  // dx/dy relative to the anchor where the finger first touched
   let dx=cx-joyBaseX, dy=cy-joyBaseY;
   const dist=Math.sqrt(dx*dx+dy*dy);
   const clamped=Math.min(dist,JOY_R-4);
   const nx=dist>0?dx/dist:0, ny=dist>0?dy/dist:0;
-  // position thumb inside the base circle
-  joyThumb.style.left=(JOY_R+nx*clamped)+'px';
-  joyThumb.style.top= (JOY_R+ny*clamped)+'px';
-  joyThumb.style.transform='translate(-50%,-50%)';
+  // Store thumb offset — no DOM write here
+  _joyThumbTX=nx*clamped;
+  _joyThumbTY=ny*clamped;
+  if(!_joyPendingVisual){_joyPendingVisual=true;requestAnimationFrame(_applyJoyVisual);}
   joyDx = dist>JOY_DEAD ? nx*JOY_SENS : 0;
   joyDy = dist>JOY_DEAD ? ny*JOY_SENS : 0;
 }
@@ -644,12 +811,9 @@ function joyEnd(){
   joyActive=false;
   joyDx=0;joyDy=0;
   joyThumb.classList.remove('active');
-  joyThumb.style.left='50%';joyThumb.style.top='50%';
-  joyThumb.style.transform='translate(-50%,-50%)';
-  // Reset base to default position
-  joyBase.style.left='18px';
-  joyBase.style.top='auto';
-  joyBase.style.bottom='18px';
+  _joyThumbTX=0;_joyThumbTY=0;
+  _joyBaseTX=0;_joyBaseTY=0;_joyBaseRepositioned=true;
+  if(!_joyPendingVisual){_joyPendingVisual=true;requestAnimationFrame(_applyJoyVisual);}
 }
 
 // Touch events on the joystick zone
