@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Ahmedajaz | Identity & Cloud Security Blog</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+<body class="bg-gray-50 text-gray-800">
+
+<!-- Header with Logo -->
+<section class="bg-black py-8 px-4 flex justify-center">
+  <div class="flex items-center gap-10">
+    <!-- Logo -->
+    <img src="/Logo.gif" alt="Ahmedajaz Logo" class="w-24 h-24" />
+
+    <!-- Text Block -->
+    <div class="text-left">
+      <h1 class="text-3xl font-bold mb-2 text-blue-600">Ahmedajaz | Identity & Cloud Security</h1>
+      <p class="text-lg text-gray-100">Entra ID, IAM Governance & Cloud Security Automation</p>
+    </div>
+  </div>
+</section>
+
+ 
+ <!-- Navigation Bar -->
+<nav class="bg-white text-gray-800 px-4 py-4 shadow-md sticky top-0 z-50">
+  <div class="max-w-7xl mx-auto flex items-center justify-between">
+    <div class="flex flex-wrap sm:flex-nowrap space-x-3 sm:space-x-6 text-base sm:text-lg overflow-x-auto">
+      <a href="/" class="hover:text-blue-600 transition">Home</a>
+      <a href="/blog" class="hover:text-blue-600 transition">Blog</a>
+      <a href="/about" class="hover:text-blue-600 transition">About</a>
+      <a href="/contact" class="hover:text-blue-600 transition">Contact</a>
+    </div>
+
+    <div class="flex items-center gap-4">
+      <div class="hidden sm:flex items-center gap-4">
+        <a href="https://www.linkedin.com/shareArticle?mini=true&url=https://www.ahmedajaz.com"
+           target="_blank" rel="noopener noreferrer"
+           class="text-blue-600 hover:text-blue-800">
+          <i class="fab fa-linkedin text-lg"></i>
+        </a>
+        <a href="https://twitter.com/intent/tweet?url=https://www.ahmedajaz.com&text=Check%20this%20out!"
+           target="_blank" rel="noopener noreferrer"
+           class="text-black hover:text-gray-700">
+          <i class="fab fa-x-twitter text-lg"></i>
+        </a>
+        <a href="https://wa.me/?text=https://www.ahmedajaz.com"
+           target="_blank" rel="noopener noreferrer"
+           class="text-green-500 hover:text-green-700">
+          <i class="fab fa-whatsapp text-lg"></i>
+        </a>
+     </div>
+      <button
+        onclick="navigator.share && navigator.share({ title: 'Ahmed Ajaz', url: window.location.href })"
+        class="sm:hidden flex items-center gap-1 bg-gray-800 text-white text-sm px-2 py-1.5 rounded hover:bg-gray-900 transition ml-4">
+        <i class="fas fa-share-alt text-base"></i>
+        <span class="sr-only">Share</span>
+      </button>
+    </div>
+  </div>
+</nav>
+
+<!-- Blog Article -->
+<section class="max-w-4xl mx-auto px-4 py-12">
+  <h2 class="text-3xl font-bold mb-4 text-gray-900">🚀 Native Deployment with Power Platform Pipelines</h2>
+  <div class="text-sm text-gray-500 mb-4">
+    <span>🗓️ Published: October 2026</span>
+    <span class="mx-2">|</span>
+    <span>✍️ Author: Ajaz Ahmed</span>
+  </div>
+
+
+  <p class="text-lg text-gray-700 mb-6">
+    For years, moving Power Platform solutions between environments meant manual exports, late-night imports, and a prayer that nothing was hard-coded to dev. The native deployment pipelines changed that equation for me. This article shares the gotchas I hit in real deployments and the tricks that now make my releases boring in the best possible way.
+  </p>
+
+  <img src="/blog/power-platform-pipelines/pipelines-banner.png" alt="Power Platform deployment pipelines illustration" class="max-w-lg mx-auto mb-6 rounded shadow"
+     loading="lazy">
+  <h3 class="text-2xl font-semibold mb-2">🧭 What Native Deployment Actually Gives You</h3>
+  <p class="mb-6 text-gray-800">
+    Pipelines deploy your solution plus the configuration each target environment needs: connections, connection references, and environment variables. Deployments run as managed solutions downstream, the pipeline host automatically keeps backups of every deployment, and the same solution artifact must pass through each stage in order. You cannot skip QA or tamper with the artifact mid-flight, which is exactly the governance guardrail most teams are missing.
+  </p>
+
+  <h3 class="text-2xl font-semibold mb-2">🔌 Gotcha #1: Connection References Keep the Developer's Identity</h3>
+  <p class="mb-6 text-gray-800">
+    This one bit me first. Deploying through a pipeline does not change who owns the connection references. Your flow lands in production still pointing at the developer's personal connection, and the day that account changes or the developer leaves, the flow breaks. Even deploying with a service principal only shares the connection with it, it does not switch the identity.
+  </p>
+  <p class="mb-6 text-gray-800">
+    <strong>Trick:</strong> create the connections with your service account in the target environment first, note the connection IDs, and swap them into the deployment settings JSON before deploying. That is how you force production flows onto the service identity instead of a human one.
+  </p>
+
+  <img src="/blog/power-platform-pipelines/connection-reference.png" alt="Connection reference identity example" class="max-w-lg mx-auto mb-6 rounded shadow"
+     loading="lazy">
+
+  <h3 class="text-2xl font-semibold mb-2">🧪 Gotcha #2: Environment Variables Fail Late, Not at Import</h3>
+  <p class="mb-6 text-gray-800">
+    A missing current value on an environment variable with no default will not fail your import. It fails at runtime, in production, in the most confusing way possible. I learned to treat every environment variable as a deployment input, not an afterthought.
+  </p>
+  <ul class="space-y-2 mb-6 text-gray-800">
+    <li>📝 <strong>Defaults with intent:</strong> only set a default value when it is genuinely sensible for every environment. Otherwise leave it empty and supply the current value per environment at deploy time.</li>
+    <li>🔑 <strong>Secrets stay secret:</strong> use the Secret variable type backed by Azure Key Vault for API keys and credentials. Never a plain-text variable.</li>
+    <li>⚙️ <strong>Settings file over clicks:</strong> generate the deployment settings file and fill in per-environment values there instead of clicking through the import UI. Repeatable beats manual every time.</li>
+  </ul>
+
+  <h3 class="text-2xl font-semibold mb-2">📦 Gotcha #3: Solution-Awareness Can't Be Bolted On Later</h3>
+  <p class="mb-6 text-gray-800">
+    Every flow that will ever move between environments must be created inside a solution from the very first save. Converting a flow later is possible, but you lose run history and the connection wiring gets messy. Same story for hard-coded SharePoint URLs, list names, or environment GUIDs: a solution carrying those is simply not portable.
+  </p>
+  <ul class="space-y-2 mb-6 text-gray-800">
+    <li>🏷️ <strong>Publisher prefix first:</strong> set up your publisher and prefix before anyone builds anything, so every component is namespaced consistently.</li>
+    <li>🔗 <strong>Variables, not literals:</strong> put every URL, list name, and toggle into environment variables up front.</li>
+    <li>👨‍👩‍👧 <strong>Child flows stay in the family:</strong> child flows must live in the same solution as the parent and be called through the Run a Child Flow action. Just remember each child call counts as a run against your license.</li>
+  </ul>
+
+  <h3 class="text-2xl font-semibold mb-2">🛠️ Tricks That Make Deployments Boring</h3>
+  <ul class="space-y-2 mb-6 text-gray-800">
+    <li>💾 <strong>Trust the backups:</strong> the pipeline host stores both managed and unmanaged copies of every deployment automatically. Rollback is a deployment away.</li>
+    <li>🔢 <strong>Version with discipline:</strong> bump the solution version on every release so you can always trace what is running where.</li>
+    <li>🚫 <strong>Unmanaged stays in dev:</strong> develop unmanaged, deploy managed. Never let unmanaged customizations leak into QA or production.</li>
+    <li>📊 <strong>Data doesn't travel:</strong> pipelines deploy customizations, not Dataverse data. Plan a separate data-seeding step for reference data.</li>
+    <li>🧩 <strong>Know the gaps:</strong> Power BI dashboards and datasets are not supported in pipelines yet, so plan around them.</li>
+  </ul>
+
+  <h3 class="text-2xl font-semibold mb-2">💬 Closing Thoughts</h3>
+  <p class="mb-6 text-gray-800">
+    Native pipelines took my Power Platform releases from fragile rituals to repeatable engineering. The gotchas are all about identity and configuration: who the connections belong to, where the variables get their values, and whether your solution was portable from day one. Get those three right, and deployments become the quietest part of your week.
+  </p>
+
+  <div class="mt-10 space-x-6 text-blue-600 text-lg font-medium">
+    <a href="/blog" class="hover:underline inline-flex items-center">
+      <span class="mr-1">←</span> Go check other blogs
+    </a>
+    <a href="/contact" class="hover:underline">Share Feedback</a>
+  </div>
+</section>
+
+
+
+<!-- Footer -->
+<footer class="bg-gray-800 text-gray-200 py-6 text-center">
+  <p>&copy; 2025 Ajaz Ahmed | Identity & Cloud Security Blog</p>
+</footer>
+
+</body>
+</html>

@@ -48,6 +48,13 @@
     "url": "/blog/zero-trust-identity",
     "published": "October 2025",
     "icon": "🧩"
+  },
+  {
+    "title": "Native Deployment with Power Platform Pipelines",
+    "description": "Discover how native Power Platform pipelines streamline solution deployments across environments—and the gotchas I hit along the way: connection reference identities, late-failing environment variables, and the tricks that make releases repeatable.",
+    "url": "/blog/power-platform-pipelines",
+    "published": "October 2026",
+    "icon": "🚀"
   }
 
 
