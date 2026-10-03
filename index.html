@@ -478,17 +478,17 @@ html { scroll-behavior: smooth; }
     const post = posts[posts.length - 1];
     const url = post.url.endsWith('/') ? post.url : post.url + '/';
     box.innerHTML = `
-      <div class="overflow-hidden rounded-2xl shadow-xl bg-white grid grid-cols-1 md:grid-cols-3">
-        <div class="bg-gradient-to-br from-gray-800 to-gray-900 text-white p-8 flex flex-col justify-center">
-          <span class="text-xs font-bold uppercase tracking-widest text-gray-300 mb-3">Latest article</span>
-          <span class="text-6xl mb-3">${post.icon || ''}</span>
-          <span class="text-sm text-gray-300">${post.published || ''}</span>
+      <div class="bg-white rounded-2xl shadow-lg p-8 md:p-10 border-t-4 border-blue-600">
+        <div class="flex items-center gap-4 mb-5">
+          <span class="text-4xl">${post.icon || ''}</span>
+          <div>
+            <p class="text-xs font-bold uppercase tracking-widest text-blue-600">Latest article</p>
+            <p class="text-sm text-gray-500">${post.published || ''}</p>
+          </div>
         </div>
-        <div class="md:col-span-2 p-8">
-          <h3 class="text-2xl font-bold mb-3">${post.title}</h3>
-          <p class="text-gray-600 mb-6">${post.description || ''}</p>
-          <a href="${url}" class="inline-flex items-center font-semibold text-white bg-blue-600 px-6 py-3 rounded-lg hover:bg-blue-700 hover:-translate-y-0.5 transition">Read the article <span class="ml-2">&rarr;</span></a>
-        </div>
+        <h3 class="text-2xl md:text-3xl font-bold mb-3">${post.title}</h3>
+        <p class="text-gray-600 mb-6 max-w-3xl">${post.description || ''}</p>
+        <a href="${url}" class="inline-flex items-center font-semibold text-white bg-blue-600 px-6 py-3 rounded-lg hover:bg-blue-700 hover:-translate-y-0.5 transition">Read the article <span class="ml-2">&rarr;</span></a>
       </div>`;
   } catch (e) { box.style.display = 'none'; }
 })();
