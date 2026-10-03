@@ -168,6 +168,9 @@ html { scroll-behavior: smooth; }
 <!-- Featured article spotlight -->
 <section class="max-w-6xl mx-auto px-4 pt-12">
   <div id="featured-article" class="reveal"></div>
+  <div class="text-center mt-6 reveal">
+    <a href="/blog" class="font-semibold text-blue-600 hover:text-blue-800 transition">Browse all articles &rarr;</a>
+  </div>
 </section>
 
   <!-- Featured Categories -->
@@ -214,13 +217,7 @@ html { scroll-behavior: smooth; }
     </div>
   </section>
 -->
-  <!-- Recent Posts Placeholder -->
-  <section class="bg-white py-6 reveal">
-  <div class="max-w-6xl mx-auto px-4">
-    <h2 class="text-2xl font-semibold text-center mb-6">Recent Articles</h2>
-    <div id="recent-articles" class="grid md:grid-cols-2 gap-6"></div>
-  </div>
-</section>
+  
 
 <!-- Connect + Subscribe Side-by-Side Section -->
 <section class="bg-blue-100 py-8 reveal">
@@ -264,47 +261,7 @@ html { scroll-behavior: smooth; }
   </div>
 </section>
 
-<!-- Script to load recent articles -->
 
-<script>
-(async () => {
-  try {
-    const res = await fetch('/blog/posts.json', { cache: 'no-store' });
-    const posts = await res.json();
-
-    // Take the last 2 items from the array (assuming bottom = newest)
-    const recent = posts.slice(-2).reverse();
-
-    const container = document.getElementById('recent-articles');
-    container.innerHTML = recent.map(p => {
-      const url = p.url.endsWith('/') ? p.url : p.url + '/';
-      const desc = (p.description || '').length > 180
-        ? p.description.slice(0, 177) + '…'
-        : (p.description || '');
-
-      return `
-        <a href="${url}" class="block">
-          <div class="bg-gray-100 p-6 rounded-lg shadow-md hover:shadow-lg h-full">
-            <h3 class="text-xl font-bold mb-2">${p.icon ? p.icon + ' ' : ''}${p.title}</h3>
-            <p class="mb-3">${desc}</p>
-            <span class="text-blue-600">Read more →</span>
-          </div>
-        </a>
-      `;
-    }).join('');
-
-    // Optional: simple fallback if fewer than 2 posts
-    if (!recent.length) {
-      container.innerHTML = `<p class="text-gray-600">No articles yet.</p>`;
-    }
-  } catch (e) {
-    console.error('Failed to load posts.json', e);
-    // Keep container empty or insert a fallback message
-    document.getElementById('recent-articles').innerHTML =
-      `<p class="text-red-600">Unable to load recent articles right now.</p>`;
-  }
-})();
-</script>
 
 
 
