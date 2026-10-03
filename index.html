@@ -22,12 +22,34 @@
 
   gtag('config', 'G-2RLJQWQ46W');
 </script>
+<style>
+html { scroll-behavior: smooth; }
+#scroll-progress { position: fixed; top: 0; left: 0; height: 3px; width: 0%; z-index: 60;
+  background: linear-gradient(90deg, #2563eb, #1d4ed8); }
+.reveal { opacity: 0; transform: translateY(28px);
+  transition: opacity .7s ease, transform .7s cubic-bezier(.22,1,.36,1); }
+.reveal.visible { opacity: 1; transform: none; }
+.stagger-group > * { opacity: 0; transform: translateY(24px);
+  transition: opacity .6s ease, transform .6s cubic-bezier(.22,1,.36,1); }
+.stagger-group.visible > * { opacity: 1; transform: none; }
+.topic-card { transition: transform .3s ease, box-shadow .3s ease; }
+.topic-card:hover { transform: translateY(-6px); }
+@keyframes heroIn { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: none; } }
+.hero-anim > * { opacity: 0; animation: heroIn .8s cubic-bezier(.22,1,.36,1) forwards; }
+.hero-anim > *:nth-child(2) { animation-delay: .15s; }
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .reveal, .stagger-group > *, .hero-anim > * { opacity: 1 !important; transform: none !important;
+    transition: none !important; animation: none !important; }
+}
+</style>
 </head>
 <body class="bg-gray-50 text-gray-800">
+<div id="scroll-progress"></div>
 
 <!-- Header with Logo -->
 <section class="bg-black py-8 px-4 flex justify-center">
-  <div class="flex items-center gap-10">
+  <div class="flex items-center gap-10 hero-anim">
     <!-- Logo -->
     <img src="/Logo.gif" alt="Ahmedajaz Logo" class="w-24 h-24" />
 
@@ -101,7 +123,7 @@
 <! Copy above in all pages>
   
 <!-- Welcome Section with Profile Picture -->
-  <section class="max-w-6xl mx-auto px-4 py-12 grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+  <section class="max-w-6xl mx-auto px-4 py-12 grid grid-cols-1 md:grid-cols-2 gap-8 items-center reveal">
     <div>
 
       <h2 class="text-3xl font-semibold mb-4">Welcome!</h2>
@@ -118,23 +140,23 @@
   </section>
 
   <!-- Featured Categories -->
-  <section class="bg-white py-6">
+  <section class="bg-white py-6 reveal">
     <div class="max-w-6xl mx-auto px-4">
       <h2 class="text-2xl font-semibold mb-6 text-center">Topics I Write About</h2>
-      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-6">
-        <div class="p-6 bg-gray-100 rounded-xl shadow hover:shadow-lg transition">
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-6 stagger-group">
+        <div class="p-6 bg-gray-100 rounded-xl shadow hover:shadow-lg transition topic-card">
           <h3 class="text-xl font-bold mb-2">Microsoft Entra ID & Governance</h3>
           <p>Real-world implementations of Just-in-Time Access, Role-based Access Control, Access Reviews, and Lifecycle Management.</p>
         </div>
-        <div class="p-6 bg-gray-100 rounded-xl shadow hover:shadow-lg transition">
+        <div class="p-6 bg-gray-100 rounded-xl shadow hover:shadow-lg transition topic-card">
           <h3 class="text-xl font-bold mb-2">IAM with Okta, Ping, ForgeRock</h3>
           <p>Tips on Identity Federation, OAuth2/OIDC, Conditional Access, and integrating with cloud & enterprise tools.</p>
         </div>
-        <div class="p-6 bg-gray-100 rounded-xl shadow hover:shadow-lg transition">
+        <div class="p-6 bg-gray-100 rounded-xl shadow hover:shadow-lg transition topic-card">
           <h3 class="text-xl font-bold mb-2">Cloud Security (Azure & AWS)</h3>
           <p>Best practices around IAM, Privileged Access, PKI, and Zero Trust models in multi-cloud environments.</p>
         </div>
-        <div class="p-6 bg-gray-100 rounded-xl shadow hover:shadow-lg transition">
+        <div class="p-6 bg-gray-100 rounded-xl shadow hover:shadow-lg transition topic-card">
           <h3 class="text-xl font-bold mb-2">Power Platform & Low-Code</h3>
           <p>Deployment pipelines, ALM, and governance for Power Apps and Power Automate — lessons and gotchas from real-world solution releases.</p>
         </div>
@@ -162,7 +184,7 @@
   </section>
 -->
   <!-- Recent Posts Placeholder -->
-  <section class="bg-white py-6">
+  <section class="bg-white py-6 reveal">
   <div class="max-w-6xl mx-auto px-4">
     <h2 class="text-2xl font-semibold text-center mb-6">Recent Articles</h2>
     <div id="recent-articles" class="grid md:grid-cols-2 gap-6"></div>
@@ -170,7 +192,7 @@
 </section>
 
 <!-- Connect + Subscribe Side-by-Side Section -->
-<section class="bg-blue-100 py-8">
+<section class="bg-blue-100 py-8 reveal">
   <div class="max-w-6xl mx-auto px-4 grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
     
     <!-- Connect Column -->
@@ -399,6 +421,34 @@
     <p>&copy; 2026 Ajaz Ahmed | Identity & Cloud Security Blog</p>
   </footer>
 
+<script>
+// Scroll progress bar
+(function () {
+  var bar = document.getElementById('scroll-progress');
+  addEventListener('scroll', function () {
+    var el = document.documentElement;
+    var max = el.scrollHeight - el.clientHeight;
+    bar.style.width = (max > 0 ? (el.scrollTop / max) * 100 : 0) + '%';
+  }, { passive: true });
+})();
+// Reveal-on-scroll with staggered children
+(function () {
+  var io = new IntersectionObserver(function (entries) {
+    entries.forEach(function (e) {
+      if (!e.isIntersecting) return;
+      var el = e.target;
+      if (el.classList.contains('stagger-group')) {
+        Array.prototype.forEach.call(el.children, function (c, i) {
+          c.style.transitionDelay = (i * 0.12) + 's';
+        });
+      }
+      el.classList.add('visible');
+      io.unobserve(el);
+    });
+  }, { threshold: 0.15 });
+  document.querySelectorAll('.reveal, .stagger-group').forEach(function (el) { io.observe(el); });
+})();
+</script>
 </body>
 </html>
 
