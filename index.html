@@ -43,6 +43,20 @@ html { scroll-behavior: smooth; }
     transition: none !important; animation: none !important; }
 }
 </style>
+<style>
+.blob { position: absolute; border-radius: 9999px; filter: blur(80px); opacity: .3; pointer-events: none;
+  animation: drift 14s ease-in-out infinite alternate; }
+@keyframes drift { from { transform: translate(0,0) scale(1); } to { transform: translate(34px,-24px) scale(1.12); } }
+.float-chip { animation: floaty 6s ease-in-out infinite; }
+@keyframes floaty { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
+.typed-cursor { animation: blink 1s step-end infinite; color: #60a5fa; font-weight: 700; }
+@keyframes blink { 50% { opacity: 0; } }
+.hero-anim > *:nth-child(3) { animation-delay: .3s; }
+.hero-anim > *:nth-child(4) { animation-delay: .4s; }
+@media (prefers-reduced-motion: reduce) {
+  .blob, .float-chip, .typed-cursor { animation: none !important; }
+}
+</style>
 </head>
 <body class="bg-gray-50 text-gray-800">
 <div id="scroll-progress"></div>
@@ -122,22 +136,39 @@ html { scroll-behavior: smooth; }
 
 <! Copy above in all pages>
   
-<!-- Welcome Section with Profile Picture -->
-  <section class="max-w-6xl mx-auto px-4 py-12 grid grid-cols-1 md:grid-cols-2 gap-8 items-center reveal">
-    <div>
-
-      <h2 class="text-3xl font-semibold mb-4">Welcome!</h2>
-      <p class="text-lg text-gray-900">
-        I'm Ajaz Ahmed Siddiqui, a Security Delivery Leader and IAM specialist based in Bellevue, WA. This blog shares lessons learned, frameworks deployed, and automation I've implemented across Microsoft Entra ID, Okta, Ping, and ForgeRock, as well as securing Azure and AWS environments. Join me as I explore automation, identity architecture, governance, and real-world IAM strategies.
-      </p>
-<p class="mt-4 text-lg font-semibold">
-  Page views: <span id="visitor-count">Loading...</span>
-</p>
+<!-- Hero -->
+<section class="relative overflow-hidden bg-gradient-to-br from-gray-900 via-blue-900 to-gray-900 text-white">
+  <div class="blob bg-blue-600 w-96 h-96 -top-20 -left-20"></div>
+  <div class="blob bg-indigo-500 w-80 h-80 bottom-0 right-10" style="animation-delay: -7s"></div>
+  <div class="absolute inset-0 opacity-20 pointer-events-none" style="background-image: radial-gradient(circle at 1px 1px, #93c5fd 1px, transparent 0); background-size: 32px 32px;"></div>
+  <div class="relative max-w-6xl mx-auto px-4 py-16 md:py-24 grid grid-cols-1 md:grid-cols-2 gap-10 items-center">
+    <div class="hero-anim">
+      <span class="inline-block px-4 py-1.5 mb-5 text-sm font-semibold tracking-wide text-blue-200 bg-blue-500 bg-opacity-10 border border-blue-400 border-opacity-30 rounded-full">Security Delivery Leader &middot; Bellevue, WA</span>
+      <h1 class="text-4xl md:text-5xl font-bold leading-tight mb-4">Identity &amp; Cloud Security,<br/><span class="text-blue-400">in practice.</span></h1>
+      <p class="text-lg text-gray-300 mb-5 h-8"><span class="text-blue-300 font-mono">&rsaquo;</span> <span id="typed"></span><span class="typed-cursor">&block;</span></p>
+      <p class="text-gray-400 mb-8 max-w-lg">I&apos;m Ajaz Ahmed Siddiqui. This blog shares lessons learned, frameworks deployed, and automation I&apos;ve implemented across Microsoft Entra ID, Okta, Ping, ForgeRock, Azure, and AWS.</p>
+      <div class="flex flex-wrap gap-4">
+        <a href="/blog" class="px-7 py-3 rounded-lg font-semibold text-white bg-gradient-to-r from-blue-600 to-blue-500 hover:from-blue-500 hover:to-blue-400 hover:-translate-y-0.5 transition shadow-lg">Explore Articles</a>
+        <a href="/contact" class="px-7 py-3 rounded-lg font-semibold text-blue-200 border border-blue-400 border-opacity-40 hover:bg-blue-500 hover:bg-opacity-10 hover:-translate-y-0.5 transition">Let&apos;s Connect</a>
+      </div>
+      <p class="mt-6 text-sm text-gray-500">Page views: <span id="visitor-count">Loading...</span></p>
     </div>
     <div class="flex justify-center">
-      <img src="/Profile pic.jpg" alt="Ajaz Ahmed" class="rounded-xl w-56 h-56 object-cover shadow-lg border-2 border-gray-700" />
+      <div class="relative hero-anim">
+        <div class="absolute -inset-3 rounded-3xl bg-gradient-to-br from-blue-500 to-indigo-600 opacity-40 blur-lg"></div>
+        <img src="/Profile pic.jpg" alt="Ajaz Ahmed" class="relative rounded-3xl w-64 h-64 md:w-72 md:h-72 object-cover border-2 border-blue-400 border-opacity-40 shadow-2xl" />
+        <span class="float-chip absolute -left-6 top-8 px-3 py-1.5 text-xs font-semibold bg-gray-800 border border-blue-400 border-opacity-30 rounded-full text-blue-200 shadow-lg">Entra ID</span>
+        <span class="float-chip absolute -right-4 top-1/3 px-3 py-1.5 text-xs font-semibold bg-gray-800 border border-blue-400 border-opacity-30 rounded-full text-blue-200 shadow-lg" style="animation-delay: -2s">Zero Trust</span>
+        <span class="float-chip absolute -left-4 bottom-10 px-3 py-1.5 text-xs font-semibold bg-gray-800 border border-blue-400 border-opacity-30 rounded-full text-blue-200 shadow-lg" style="animation-delay: -4s">Power Platform</span>
+      </div>
     </div>
-  </section>
+  </div>
+</section>
+
+<!-- Featured article spotlight -->
+<section class="max-w-6xl mx-auto px-4 pt-12">
+  <div id="featured-article" class="reveal"></div>
+</section>
 
   <!-- Featured Categories -->
   <section class="bg-white py-6 reveal">
@@ -421,6 +452,47 @@ html { scroll-behavior: smooth; }
     <p>&copy; 2026 Ajaz Ahmed | Identity & Cloud Security Blog</p>
   </footer>
 
+<script>
+// Typewriter for hero specialties
+(function () {
+  var words = ['Identity Governance', 'Zero Trust Architecture', 'Entra ID Automation', 'Power Platform ALM', 'Cloud Security'];
+  var el = document.getElementById('typed');
+  if (!el) return;
+  var wi = 0, ci = 0, del = false;
+  (function tick() {
+    var w = words[wi];
+    el.textContent = w.slice(0, ci);
+    var speed = del ? 40 : 85;
+    if (!del && ci === w.length) { speed = 1600; del = true; }
+    else if (del && ci === 0) { del = false; wi = (wi + 1) % words.length; speed = 400; }
+    else { ci += del ? -1 : 1; }
+    setTimeout(tick, speed);
+  })();
+})();
+// Featured article spotlight (latest post)
+(async () => {
+  var box = document.getElementById('featured-article');
+  try {
+    const res = await fetch('/blog/posts.json', { cache: 'no-store' });
+    const posts = await res.json();
+    const post = posts[posts.length - 1];
+    const url = post.url.endsWith('/') ? post.url : post.url + '/';
+    box.innerHTML = `
+      <div class="overflow-hidden rounded-2xl shadow-xl bg-white grid grid-cols-1 md:grid-cols-3">
+        <div class="bg-gradient-to-br from-blue-700 to-indigo-800 text-white p-8 flex flex-col justify-center">
+          <span class="text-xs font-bold uppercase tracking-widest text-blue-200 mb-3">Latest article</span>
+          <span class="text-6xl mb-3">${post.icon || ''}</span>
+          <span class="text-sm text-blue-200">${post.published || ''}</span>
+        </div>
+        <div class="md:col-span-2 p-8">
+          <h3 class="text-2xl font-bold mb-3">${post.title}</h3>
+          <p class="text-gray-600 mb-6">${post.description || ''}</p>
+          <a href="${url}" class="inline-flex items-center font-semibold text-white bg-blue-600 px-6 py-3 rounded-lg hover:bg-blue-700 hover:-translate-y-0.5 transition">Read the article <span class="ml-2">&rarr;</span></a>
+        </div>
+      </div>`;
+  } catch (e) { box.style.display = 'none'; }
+})();
+</script>
 <script>
 // Scroll progress bar
 (function () {
