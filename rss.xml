@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0">
+  <channel>
+    <title>Ajaz Ahmed Siddiqui</title>
+    <link>https://ahmedajaz.com</link>
+    <description>Practical notes on Entra ID, identity governance, cloud security, and automation.</description>
+    <language>en-us</language>
+    <lastBuildDate>Fri, 09 Oct 2026 05:50:02 GMT</lastBuildDate>
+    <item>
+      <title>Modernizing IAM with Entra ID</title>
+      <link>https://ahmedajaz.com/blog/entra-id-case-study</link>
+      <guid isPermaLink="true">https://ahmedajaz.com/blog/entra-id-case-study</guid>
+      <description>Learn how I used Entra ID to automate IAM workflows, including Access Packages, JIT access, and recurring reviews—reducing manual overhead by 80% and improving audit readiness.</description>
+      <pubDate>Sun, 01 Jun 2025 00:00:00 GMT</pubDate>
+    </item>
+    <item>
+      <title>Zero Trust &amp; PAM for 250K Devices</title>
+      <link>https://ahmedajaz.com/blog/zero-trust</link>
+      <guid isPermaLink="true">https://ahmedajaz.com/blog/zero-trust</guid>
+      <description>Discover how I deployed Endpoint Privilege Management (EPM) and Administrator Protection at scale—enabling JIT elevation, reducing admin rights by 95%, and enhancing visibility through dashboards and automation.</description>
+      <pubDate>Tue, 01 Jul 2025 00:00:00 GMT</pubDate>
+    </item>
+    <item>
+      <title>Seamless Entra ID &amp; Azure Migrations</title>
+      <link>https://ahmedajaz.com/blog/identity-isolation</link>
+      <guid isPermaLink="true">https://ahmedajaz.com/blog/identity-isolation</guid>
+      <description>Led global Microsoft Entra ID tenant and Azure subscription migrations with zero downtime and 99.9% uptime. Delivered secure identity isolation and automated transitions across hybrid environments.</description>
+      <pubDate>Tue, 01 Jul 2025 00:00:00 GMT</pubDate>
+    </item>
+    <item>
+      <title>Securing Email Communication with SPF, DKIM, and DMARC</title>
+      <link>https://ahmedajaz.com/blog/email-security</link>
+      <guid isPermaLink="true">https://ahmedajaz.com/blog/email-security</guid>
+      <description>Explore how Microsoft 365, combined with SPF, DKIM, and DMARC, strengthens email trust and defends against phishing and spoofing through DNS authentication, cryptographic signing, and enforced domain policies.</description>
+      <pubDate>Fri, 01 Aug 2025 00:00:00 GMT</pubDate>
+    </item>
+    <item>
+      <title>Why Identity Security Is Critical for AI Safety</title>
+      <link>https://ahmedajaz.com/blog/ai-safety</link>
+      <guid isPermaLink="true">https://ahmedajaz.com/blog/ai-safety</guid>
+      <description>Exploring how AI agents become identities with permissions, tokens, and API keys—and why applying RBAC, Zero Trust, and secrets management is essential to prevent over-permissioned agents and data leaks.</description>
+      <pubDate>Fri, 01 Aug 2025 00:00:00 GMT</pubDate>
+    </item>
+    <item>
+      <title>Human-in-the-Loop Power App for SAM</title>
+      <link>https://ahmedajaz.com/blog/sam-powerapp</link>
+      <guid isPermaLink="true">https://ahmedajaz.com/blog/sam-powerapp</guid>
+      <description>Learn how a human-in-the-loop Power App integrates PowerApps, Copilot Studio, and Generative AI workflows to help SAM teams manage applications, suppliers, and contracts efficiently while maintaining oversight and enabling data-driven decisions.</description>
+      <pubDate>Mon, 01 Sep 2025 00:00:00 GMT</pubDate>
+    </item>
+    <item>
+      <title>Zero Trust Strategy for Identity Security</title>
+      <link>https://ahmedajaz.com/blog/zero-trust-identity</link>
+      <guid isPermaLink="true">https://ahmedajaz.com/blog/zero-trust-identity</guid>
+      <description>Explore how implementing a Zero Trust framework strengthens identity security by enforcing least privilege, adaptive access, and continuous verification across users, devices, and workloads.</description>
+      <pubDate>Wed, 01 Oct 2025 00:00:00 GMT</pubDate>
+    </item>
+    <item>
+      <title>Native Deployment with Power Platform Pipelines</title>
+      <link>https://ahmedajaz.com/blog/power-platform-pipelines</link>
+      <guid isPermaLink="true">https://ahmedajaz.com/blog/power-platform-pipelines</guid>
+      <description>Discover how native Power Platform pipelines streamline solution deployments across environments—and the gotchas I hit along the way: connection reference identities, late-failing environment variables, and the tricks that make releases repeatable.</description>
+      <pubDate>Wed, 01 Jul 2026 00:00:00 GMT</pubDate>
+    </item>
+    <item>
+      <title>What's New in Entra ID Governance</title>
+      <link>https://ahmedajaz.com/blog/entra-id-governance-changes</link>
+      <guid isPermaLink="true">https://ahmedajaz.com/blog/entra-id-governance-changes</guid>
+      <description>A practitioner's rundown of the Entra ID governance changes that shipped between June and October 2026 — user-centric access reviews, tenant governance, lifecycle workflow upgrades, hard-match hardening, guest billing enforcement, and what's coming for AI agent identities — plus what to do about each one.</description>
+      <pubDate>Thu, 01 Oct 2026 00:00:00 GMT</pubDate>
+    </item>
+  </channel>
+</rss>
