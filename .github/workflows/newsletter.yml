@@ -1,0 +1,57 @@
+name: Newsletter - email new posts
+
+# Emails Buttondown subscribers when a new blog post is published.
+# Needs the BUTTONDOWN_API_KEY repository secret
+# (repo Settings -> Secrets and variables -> Actions).
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'blog/posts.json'
+  schedule:
+    # Daily backup check, 7am PT
+    - cron: '0 14 * * *'
+  workflow_dispatch:
+    inputs:
+      action:
+        description: 'What to do'
+        type: choice
+        options: [dry-run, check-key, send-new]
+        default: dry-run
+
+permissions:
+  contents: write
+
+concurrency:
+  group: newsletter-notify
+  cancel-in-progress: false
+
+jobs:
+  notify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Run notifier
+        env:
+          BUTTONDOWN_API_KEY: ${{ secrets.BUTTONDOWN_API_KEY }}
+        run: |
+          case "${{ inputs.action }}" in
+            check-key) python scripts/notify_new_posts.py --check-key ;;
+            send-new)  python scripts/notify_new_posts.py ;;
+            *)         python scripts/notify_new_posts.py --dry-run ;;
+          esac
+
+      - name: Commit updated state
+        if: ${{ inputs.action != 'dry-run' && inputs.action != 'check-key' }}
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add scripts/newsletter-state.json
+          git diff --cached --quiet || git commit -m "Update newsletter sent state [skip ci]"
+          git push
