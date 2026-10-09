@@ -253,7 +253,6 @@ html { scroll-behavior: smooth; }
     Subscribe
   </button>
 </form>
-<p id="subscribe-message" class="text-green-600 mt-2 hidden">Thanks for subscribing!</p>
 
     </div>
 
@@ -268,41 +267,27 @@ html { scroll-behavior: smooth; }
   document.addEventListener("DOMContentLoaded", function () {
     const form = document.getElementById("subscribe-form");
     const emailInput = document.getElementById("subscribe-email");
-    const message = document.getElementById("subscribe-message");
 
     form.addEventListener("submit", function (e) {
-      e.preventDefault();
-
       const email = emailInput.value.trim();
       const isValidEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
       if (!isValidEmail) {
+        e.preventDefault();
         alert("Please enter a valid email address.");
         return;
       }
 
-      fetch("https://buttondown.com/api/emails/embed-subscribe/ahmedajaz", {
-        method: "POST",
-        headers: { "Content-Type": "application/x-www-form-urlencoded" },
-        body: new URLSearchParams({ email })
-      })
-      .then(response => {
-        if (response.ok) {
-          // keep the Formspree email notification
-          fetch("https://formspree.io/f/mzzvgndq", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ email })
-          }).catch(() => {});
-          form.reset();
-          message.classList.remove("hidden");
-        } else {
-          alert("Failed to subscribe. Please try again.");
-        }
-      })
-      .catch(error => {
-        alert("An error occurred. Please try again.");
-        console.error(error);
-      });
+      // keep the Formspree email notification (fire-and-forget, survives navigation)
+      const blob = new Blob([JSON.stringify({ email })], { type: "application/json" });
+      if (!navigator.sendBeacon("https://formspree.io/f/mzzvgndq", blob)) {
+        fetch("https://formspree.io/f/mzzvgndq", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ email }),
+          keepalive: true
+        }).catch(() => {});
+      }
+      // let the form submit natively to Buttondown so their verification page can complete
     });
   });
 </script>
