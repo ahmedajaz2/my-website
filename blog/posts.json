@@ -1,5 +1,4 @@
 [
-  
   {
     "title": "Modernizing IAM with Entra ID",
     "description": "Learn how I used Entra ID to automate IAM workflows, including Access Packages, JIT access, and recurring reviews—reducing manual overhead by 80% and improving audit readiness.",
@@ -36,11 +35,11 @@
     "icon": "🤖"
   },
   {
-  "title": "Human-in-the-Loop Power App for SAM",
-  "description": "Learn how a human-in-the-loop Power App integrates PowerApps, Copilot Studio, and Generative AI workflows to help SAM teams manage applications, suppliers, and contracts efficiently while maintaining oversight and enabling data-driven decisions.",
-  "url": "/blog/sam-powerapp",
-  "published": "September 2025",
-  "icon": "💻"
+    "title": "Human-in-the-Loop Power App for SAM",
+    "description": "Learn how a human-in-the-loop Power App integrates PowerApps, Copilot Studio, and Generative AI workflows to help SAM teams manage applications, suppliers, and contracts efficiently while maintaining oversight and enabling data-driven decisions.",
+    "url": "/blog/sam-powerapp",
+    "published": "September 2025",
+    "icon": "💻"
   },
   {
     "title": "Zero Trust Strategy for Identity Security",
@@ -53,9 +52,7 @@
     "title": "Native Deployment with Power Platform Pipelines",
     "description": "Discover how native Power Platform pipelines streamline solution deployments across environments—and the gotchas I hit along the way: connection reference identities, late-failing environment variables, and the tricks that make releases repeatable.",
     "url": "/blog/power-platform-pipelines",
-    "published": "October 2026",
+    "published": "July 2026",
     "icon": "🚀"
   }
-
-
 ]
