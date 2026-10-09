@@ -54,5 +54,12 @@
     "url": "/blog/power-platform-pipelines",
     "published": "July 2026",
     "icon": "🚀"
+  },
+  {
+    "title": "What's New in Entra ID Governance",
+    "description": "A practitioner's rundown of the Entra ID governance changes that shipped between June and October 2026 — user-centric access reviews, tenant governance, lifecycle workflow upgrades, hard-match hardening, guest billing enforcement, and what's coming for AI agent identities — plus what to do about each one.",
+    "url": "/blog/entra-id-governance-changes",
+    "published": "October 2026",
+    "icon": "🛡️"
   }
 ]

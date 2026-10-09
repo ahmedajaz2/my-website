@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Ahmedajaz | Identity & Cloud Security Blog</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+<body class="bg-gray-50 text-gray-800">
+
+<!-- Header with Logo -->
+<section class="bg-black py-8 px-4 flex justify-center">
+  <div class="flex items-center gap-10">
+    <!-- Logo -->
+    <img src="/Logo.gif" alt="Ahmedajaz Logo" class="w-24 h-24" />
+
+    <!-- Text Block -->
+    <div class="text-left">
+      <h1 class="text-3xl font-bold mb-2 text-blue-600">Ahmedajaz | Identity & Cloud Security</h1>
+      <p class="text-lg text-gray-100">Entra ID, IAM Governance & Cloud Security Automation</p>
+    </div>
+  </div>
+</section>
+
+ 
+ <!-- Navigation Bar -->
+<nav class="bg-white text-gray-800 px-4 py-4 shadow-md sticky top-0 z-50">
+  <div class="max-w-7xl mx-auto flex items-center justify-between">
+    <div class="flex flex-wrap sm:flex-nowrap space-x-3 sm:space-x-6 text-base sm:text-lg overflow-x-auto">
+      <a href="/" class="hover:text-blue-600 transition">Home</a>
+      <a href="/blog" class="hover:text-blue-600 transition">Blog</a>
+      <a href="/about" class="hover:text-blue-600 transition">About</a>
+      <a href="/contact" class="hover:text-blue-600 transition">Contact</a>
+    </div>
+
+    <div class="flex items-center gap-4">
+      <div class="hidden sm:flex items-center gap-4">
+        <a href="https://www.linkedin.com/shareArticle?mini=true&url=https://www.ahmedajaz.com"
+           target="_blank" rel="noopener noreferrer"
+           class="text-blue-600 hover:text-blue-800">
+          <i class="fab fa-linkedin text-lg"></i>
+        </a>
+        <a href="https://twitter.com/intent/tweet?url=https://www.ahmedajaz.com&text=Check%20this%20out!"
+           target="_blank" rel="noopener noreferrer"
+           class="text-black hover:text-gray-700">
+          <i class="fab fa-x-twitter text-lg"></i>
+        </a>
+        <a href="https://wa.me/?text=https://www.ahmedajaz.com"
+           target="_blank" rel="noopener noreferrer"
+           class="text-green-500 hover:text-green-700">
+          <i class="fab fa-whatsapp text-lg"></i>
+        </a>
+     </div>
+      <button
+        onclick="navigator.share && navigator.share({ title: 'Ahmed Ajaz', url: window.location.href })"
+        class="sm:hidden flex items-center gap-1 bg-gray-800 text-white text-sm px-2 py-1.5 rounded hover:bg-gray-900 transition ml-4">
+        <i class="fas fa-share-alt text-base"></i>
+        <span class="sr-only">Share</span>
+      </button>
+    </div>
+  </div>
+</nav>
+
+<!-- Blog Article -->
+<section class="max-w-4xl mx-auto px-4 py-12">
+  <h2 class="text-3xl font-bold mb-4 text-gray-900">🛡️ What's New in Entra ID Governance</h2>
+  <div class="text-sm text-gray-500 mb-4">
+    <span>🗓️ Published: October 2026</span>
+    <span class="mx-2">|</span>
+    <span>✍️ Author: Ajaz Ahmed</span>
+  </div>
+
+
+  <p class="text-lg text-gray-700 mb-6">
+    Identity governance in Entra ID has moved fast since summer. Between June and October, Microsoft shipped a stack of governance changes — some long-awaited, some quietly enforcing. Here is the rundown that matters if you run identity for a living, and what I would do about each one.
+  </p>
+
+  <img src="/blog/entra-id-governance-changes/governance-banner.png" alt="Microsoft Entra ID governance changes illustration" class="max-w-lg mx-auto mb-6 rounded shadow"
+     loading="lazy">
+  <h3 class="text-2xl font-semibold mb-2">👤 User-Centric Access Reviews Finally Answer "Who Has What?"</h3>
+  <p class="mb-6 text-gray-800">
+    Access reviews have always been resource-centric: pick an app or a group, then review who has access to it. User-centric access reviews (now generally available) flip the lens: pick a user and see everything they can touch across the environment in one unified view. For joiner-mover-leaver hygiene and audit season, this is the view reviewers actually wanted. Microsoft is also previewing reviews for disconnected applications, so even apps not integrated with Entra ID can be pulled into the review cycle.
+  </p>
+  <p class="mb-6 text-gray-800">
+    <strong>Take:</strong> run your next quarterly review user-centric for privileged users first. You will find the stale access that the resource views kept missing.
+  </p>
+
+  <h3 class="text-2xl font-semibold mb-2">🏢 Tenant Governance: One Pane for All Your Tenants</h3>
+  <p class="mb-6 text-gray-800">
+    Generally available since August, Tenant Governance lets administrators manage tenants at scale through a single interface instead of hopping across portals. The real win is visibility into shadow tenants — the ones spun up outside IT that quietly become your biggest blind spot.
+  </p>
+  <p class="mb-6 text-gray-800">
+    <strong>Take:</strong> if your organization grew by acquisition, or has developers spinning up tenants on their own, start here before your next audit does it for you.
+  </p>
+
+  <h3 class="text-2xl font-semibold mb-2">🔄 Lifecycle Workflows Grew Up</h3>
+  <p class="mb-6 text-gray-800">
+    Three upgrades worth knowing. You can now clone existing workflows, which open directly in the review-and-create page for tweaking — no more rebuilding from scratch. Agent identity sponsor tasks are in preview, extending lifecycle workflows to AI agent identities. And delegated workflow management plus expanded attribute triggers round out the set.
+  </p>
+  <p class="mb-6 text-gray-800">
+    <strong>Take:</strong> if you hand-built joiner-mover-leaver workflows, clone and tweak instead of rebuilding. And start asking who sponsors your agents — that question is coming to your next access review.
+  </p>
+
+  <img src="/blog/entra-id-governance-changes/lifecycle-workflows.png" alt="Lifecycle workflows governance illustration" class="max-w-lg mx-auto mb-6 rounded shadow"
+     loading="lazy">
+
+  <h3 class="text-2xl font-semibold mb-2">🎟️ Entitlement Management Finally Handles External Users Properly</h3>
+  <p class="mb-6 text-gray-800">
+    Since June, admins can directly assign external users who are not in the directory to an access package using just their email. They get invited in as guests and are governed from day one — no more "invite first, govern later" gap. You can also now revoke previously approved access package assignments from My Access.
+  </p>
+  <p class="mb-6 text-gray-800">
+    <strong>Take:</strong> if you run partner or vendor access, rebuild those flows around direct assignment. The onboarding experience gets simpler and the audit trail gets cleaner.
+  </p>
+
+  <h3 class="text-2xl font-semibold mb-2">🔒 Microsoft Closed the Hard-Match Takeover Vector</h3>
+  <p class="mb-6 text-gray-800">
+    This one is pure defense, enforced in two steps. Since June 1, Entra Connect and Cloud Sync can no longer hard-match an incoming Active Directory user onto a cloud user that holds Entra roles — closing a path where manipulating AD attributes could take over a privileged cloud identity. Since July 1, Entra blocks modifying the on-premises object identifier after it has been mapped, so a synced user cannot be re-mapped to a different on-premises identity. Audit logging was enhanced to capture these events, and a Graph API now exists for controlled recovery when you legitimately need to remap.
+  </p>
+  <p class="mb-6 text-gray-800">
+    <strong>Take:</strong> check your sync audit logs for blocked attempts. A block firing is a signal that someone — or something — tried something interesting.
+  </p>
+
+  <h3 class="text-2xl font-semibold mb-2">💳 The Guest Billing Meter Is Now Enforced — Don't Get Caught Out</h3>
+  <p class="mb-6 text-gray-800">
+    Enforcement of the Entra ID Governance guest billing meter is now in effect for Entitlement Management and Lifecycle Workflows, with Access Reviews enforcement landing later. Without a linked Azure subscription activating the governance-for-guests add-on, new guest-scoped governance configurations get restricted and guest governance actions can fail.
+  </p>
+  <p class="mb-6 text-gray-800">
+    <strong>Take:</strong> this is the classic "it worked in dev" trap. Link the subscription now, before your next guest access package silently fails in production.
+  </p>
+
+  <h3 class="text-2xl font-semibold mb-2">🤖 Governance Is Coming for Your AI Agents</h3>
+  <p class="mb-6 text-gray-800">
+    The agent registry (public preview, part of Entra Agent ID) is a centralized metadata store of every deployed agent across Microsoft and non-Microsoft ecosystems — built for discovery, governance, and secure collaboration at scale. Combined with agent sponsor tasks in Lifecycle Workflows, Microsoft is clearly building the identity governance plane for non-human identities.
+  </p>
+  <p class="mb-6 text-gray-800">
+    <strong>Take:</strong> if your organization is deploying Copilot Studio or Dataverse agents, the identity model you pick now is the one you will be audited on later. Treat agents like identities from day one.
+  </p>
+
+  <h3 class="text-2xl font-semibold mb-2">📡 Also on the Radar</h3>
+  <ul class="space-y-2 mb-6 text-gray-800">
+    <li>🔑 <strong>Passkeys went default September 1:</strong> users on SMS or voice MFA get passkeys auto-enabled with a registration nudge. Microsoft retires its own SMS/voice delivery on February 1, 2027 — find your SMS-only users now.</li>
+    <li>🔐 <strong>SSPR now demands registered methods:</strong> since September 7, self-service password reset only accepts explicitly registered authentication methods. Unregistered contact-attribute fallbacks are gone.</li>
+    <li>🧱 <strong>Stricter sign-in CSP from mid-October:</strong> Entra ID sign-in pages will only run scripts from trusted Microsoft CDN domains. Kill any browser extensions or tools injecting scripts into login pages before enforcement bites.</li>
+  </ul>
+
+  <h3 class="text-2xl font-semibold mb-2">💬 Closing Thoughts</h3>
+  <p class="mb-6 text-gray-800">
+    One theme across all of it: governance is moving from "review what exists" to "govern everything — tenants, guests, and agents — from one place." The capabilities are here. The gap is operational: reviews nobody reads, workflows nobody clones, guest configs nobody licenses. Pick the two that hurt most and ship them before year-end.
+  </p>
+  <ul class="space-y-2 mb-6 text-gray-800">
+    <li>✅ <strong>Run one user-centric access review</strong> for your privileged users and see what the resource views missed.</li>
+    <li>✅ <strong>Inventory your tenants</strong> with Tenant Governance — adopt or kill the shadow ones.</li>
+    <li>✅ <strong>Link the Azure subscription</strong> for guest governance billing before something fails silently.</li>
+    <li>✅ <strong>Clone, don't rebuild,</strong> your joiner-mover-leaver workflows — and add agent sponsor tasks where agents exist.</li>
+    <li>✅ <strong>Audit sync logs</strong> for hard-match blocks; a firing block is worth investigating.</li>
+  </ul>
+
+  <div class="mt-10 space-x-6 text-blue-600 text-lg font-medium">
+    <a href="/blog" class="hover:underline inline-flex items-center">
+      <span class="mr-1">←</span> Go check other blogs
+    </a>
+    <a href="/contact" class="hover:underline">Share Feedback</a>
+  </div>
+</section>
+
+
+
+<!-- Footer -->
+<footer class="bg-gray-800 text-gray-200 py-6 text-center">
+  <p>&copy; 2026 Ajaz Ahmed | Identity & Cloud Security Blog</p>
+</footer>
+
+</body>
+</html>
