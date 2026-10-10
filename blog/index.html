@@ -156,36 +156,42 @@
 </section>
 
 <script>
-  fetch("https://api.rss2json.com/v1/api.json?rss_url=https://ahmedajaz.wordpress.com/feed/")
+  fetch("https://public-api.wordpress.com/wp/v2/sites/ahmedajaz.wordpress.com/posts?per_page=3&_fields=title,link,excerpt,date")
     .then(response => response.json())
-    .then(data => {
+    .then(posts => {
       const container = document.getElementById("rss-blog-list");
 
-      if (!data.items || data.items.length === 0) {
+      if (!posts || posts.length === 0) {
         container.innerHTML = "<p class='text-gray-500'>No blog posts found.</p>";
         return;
       }
 
-      data.items.slice(0, 3).forEach(post => {
+      const strip = html => {
+        const tmp = document.createElement("div");
+        tmp.innerHTML = html;
+        return tmp.textContent || "";
+      };
+
+      posts.forEach(post => {
         const card = document.createElement("a");
         card.href = post.link;
         card.target = "_blank";
         card.rel = "noopener noreferrer";
         card.className = "block bg-white p-6 rounded-lg shadow hover:shadow-md transition";
 
-        const cleanDescription = post.description.replace(/(<([^>]+)>)/gi, "").split(" ").slice(0, 30).join(" ") + "...";
+        const cleanDescription = strip(post.excerpt.rendered).split(" ").slice(0, 30).join(" ") + "...";
 
         card.innerHTML = `
-          <h3 class="text-lg font-semibold text-blue-700 mb-2">📝 ${post.title}</h3>
+          <h3 class="text-lg font-semibold text-blue-700 mb-2">📝 ${strip(post.title.rendered)}</h3>
           <p class="text-sm text-gray-600">${cleanDescription}</p>
-          <p class="text-xs text-gray-500 mt-2">Published: ${new Date(post.pubDate).toDateString()}</p>
+          <p class="text-xs text-gray-500 mt-2">Published: ${new Date(post.date).toDateString()}</p>
         `;
 
         container.appendChild(card);
       });
     })
     .catch(err => {
-      console.error("Failed to load RSS:", err);
+      console.error("Failed to load WP posts:", err);
       document.getElementById("rss-blog-list").innerHTML =
         "<p class='text-red-500'>Unable to load blog posts right now.</p>";
     });
