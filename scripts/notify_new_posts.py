@@ -34,7 +34,8 @@ STATE_JSON = os.path.join(REPO_ROOT, "scripts", "newsletter-state.json")
 SITE = "https://ahmedajaz.com"
 
 
-def api(method: str, path: str, payload: dict | None = None) -> tuple[int, dict]:
+def api(method: str, path: str, payload: dict | None = None,
+        extra_headers: dict | None = None) -> tuple[int, dict]:
     key = os.environ.get("BUTTONDOWN_API_KEY", "")
     if not key:
         print("ERROR: BUTTONDOWN_API_KEY is not set.", file=sys.stderr)
@@ -43,6 +44,8 @@ def api(method: str, path: str, payload: dict | None = None) -> tuple[int, dict]
     req = urllib.request.Request(API_BASE + path, data=data, method=method)
     req.add_header("Authorization", f"Token {key}")
     req.add_header("Content-Type", "application/json")
+    for name, value in (extra_headers or {}).items():
+        req.add_header(name, value)
     try:
         with urllib.request.urlopen(req, timeout=30) as resp:
             return resp.status, json.loads(resp.read().decode("utf-8"))
@@ -118,7 +121,7 @@ def main() -> int:
             "status": "about_to_send",
             "email_type": "public",
             "canonical_url": SITE + post["url"],
-        })
+        }, extra_headers={"X-Buttondown-Live-Dangerously": "true"})
         if status == 201:
             print(f"SENT: {subject} (id={resp.get('id')})")
             sent.add(post["url"])
