@@ -61,5 +61,12 @@
     "url": "/blog/entra-id-governance-changes",
     "published": "October 2026",
     "icon": "🛡️"
+  },
+  {
+    "title": "Identity Security for AI Agents",
+    "description": "AI agents are the fastest-growing identities in your environment — and most teams cannot inventory them. The identity-first playbook: unique agent identities, least privilege, lifecycle governance, and audit that actually works.",
+    "url": "/blog/ai-agent-identity",
+    "published": "October 2026",
+    "icon": "🤖"
   }
 ]
