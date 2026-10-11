@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Subscribe | Ahmedajaz</title>
+  <meta name="description" content="Subscribe to Ajaz Ahmed's newsletter on identity security, Entra ID, and cloud security." />
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+<body class="bg-gray-50 text-gray-800">
+
+<!-- Header with Logo -->
+<section class="bg-black py-8 px-4 flex justify-center">
+  <div class="flex items-center gap-10 hero-anim">
+    <!-- Logo -->
+    <img src="/Logo.gif" alt="Ahmedajaz Logo" class="w-24 h-24" />
+
+    <!-- Text Block -->
+    <div class="text-left">
+      <h1 class="text-3xl font-bold mb-2 text-blue-600">Ahmedajaz | Identity & Cloud Security</h1>
+      <p class="text-lg text-gray-100">Entra ID, IAM Governance & Cloud Security Automation</p>
+    </div>
+  </div>
+</section>
+
+ 
+ <!-- Navigation Bar -->
+<nav class="bg-white text-gray-800 px-4 py-4 shadow-md sticky top-0 z-50">
+  <div class="max-w-7xl mx-auto flex items-center justify-between">
+
+    <!-- Left: Navigation Links -->
+    <!-- <div class="space-x-6 text-lg"> -->
+    <div class="flex flex-wrap sm:flex-nowrap space-x-3 sm:space-x-6 text-base sm:text-lg overflow-x-auto">
+      <a href="/" class="hover:text-blue-600 transition">Home</a>
+      <a href="/blog" class="hover:text-blue-600 transition">Blog</a>
+      <a href="/about" class="hover:text-blue-600 transition">About</a>
+      <a href="/contact" class="hover:text-blue-600 transition">Contact</a>
+    </div>
+
+    <!-- Right Side -->
+<div class="flex items-center gap-4">
+
+
+ <!-- User Menu -->
+      <div id="auth-control" class="relative hidden"></div>
+ 
+
+ <!-- Social links -->
+    <div class="hidden sm:flex items-center gap-4">
+      <!-- LinkedIn -->
+      <a href="https://www.linkedin.com/shareArticle?mini=true&url=https://www.ahmedajaz.com"
+         target="_blank" rel="noopener noreferrer"
+         class="text-blue-600 hover:text-blue-800">
+        <i class="fab fa-linkedin text-lg"></i>
+      </a>
+
+      <!-- X (Twitter) -->
+      <a href="https://twitter.com/intent/tweet?url=https://www.ahmedajaz.com&text=Check%20this%20out!"
+         target="_blank" rel="noopener noreferrer"
+         class="text-black hover:text-gray-700">
+        <i class="fab fa-x-twitter text-lg"></i>
+      </a>
+
+      <!-- WhatsApp -->
+      <a href="https://wa.me/?text=https://www.ahmedajaz.com"
+         target="_blank" rel="noopener noreferrer"
+         class="text-green-500 hover:text-green-700">
+        <i class="fab fa-whatsapp text-lg"></i>
+      </a>
+   </div>
+<!-- Mobile Share Button -->
+  <button
+  onclick="navigator.share && navigator.share({ title: 'Ahmed Ajaz', url: window.location.href })"
+  class="sm:hidden flex items-center gap-1 bg-gray-800 text-white text-sm px-2 py-1.5 rounded hover:bg-gray-900 transition ml-4">
+  <i class="fas fa-share-alt text-base"></i>
+  <span class="sr-only">Share</span> <!-- for accessibility -->
+</button>
+
+  </div>
+</nav>
+
+<!-- Subscribe -->
+<section class="max-w-2xl mx-auto px-4 py-16 text-center">
+  <div class="bg-white rounded-2xl shadow-lg p-8 md:p-12 border-t-4 border-blue-600">
+    <span class="text-5xl">&#128236;</span>
+    <h1 class="text-3xl font-bold mt-4 mb-3">Stay Updated</h1>
+    <p class="text-gray-600 mb-8">Subscribe to get the latest posts on Identity, Cloud Security, and automation tips. Roughly one email per post, no fluff, unsubscribe anytime.</p>
+    <form id="subscribe-form" action="https://buttondown.com/api/emails/embed-subscribe/ahmedajaz" method="POST" class="flex flex-col sm:flex-row gap-4 justify-center md:justify-start">
+  <input 
+    type="email" 
+    name="email" 
+    id="subscribe-email"
+    placeholder="Your email address" 
+    required
+    class="p-3 rounded-md w-full sm:w-auto flex-1 border border-gray-300"
+  />
+  <button 
+    type="submit" 
+    class="bg-blue-600 text-white px-6 py-3 rounded-md hover:bg-blue-700 transition">
+    Subscribe
+  </button>
+</form>
+    <p class="text-sm text-gray-400 mt-6">You&apos;ll get a confirmation email to complete your subscription.</p>
+  </div>
+  <div class="mt-8 text-blue-600 font-medium">
+    <a href="/" class="hover:underline">&larr; Back to homepage</a>
+  </div>
+</section>
+
+<!-- Footer -->
+  <footer class="bg-gray-800 text-gray-200 py-6 text-center">
+    <p>&copy; 2026 Ajaz Ahmed | Identity & Cloud Security Blog</p>
+  </footer>
+
+<script>
+// Typewriter for hero specialties
+(function () {
+  var words = ['Identity Governance', 'Zero Trust Architecture', 'Entra ID Automation', 'Power Platform ALM', 'Cloud Security'];
+  var el = document.getElementById('typed');
+  if (!el) return;
+  var wi = 0, ci = 0, del = false;
+  (function tick() {
+    var w = words[wi];
+    el.textContent = w.slice(0, ci);
+    var speed = del ? 40 : 85;
+    if (!del && ci === w.length) { speed = 1600; del = true; }
+    else if (del && ci === 0) { del = false; wi = (wi + 1) % words.length; speed = 400; }
+    else { ci += del ? -1 : 1; }
+    setTimeout(tick, speed);
+  })();
+})();
+// Featured article spotlight (latest post)
+(async () => {
+  var box = document.getElementById('featured-article');
+  try {
+    const res = await fetch('/blog/posts.json', { cache: 'no-store' });
+    const posts = await res.json();
+    const post = posts[posts.length - 1];
+    const url = post.url.endsWith('/') ? post.url : post.url + '/';
+    box.innerHTML = `
+      <div class="bg-white rounded-2xl shadow-lg p-8 md:p-10 border-t-4 border-blue-600">
+        <div class="flex items-center gap-4 mb-5">
+          <span class="text-4xl">${post.icon || ''}</span>
+          <div>
+            <p class="text-xs font-bold uppercase tracking-widest text-blue-600">Latest article</p>
+            <p class="text-sm text-gray-500">${post.published || ''}</p>
+          </div>
+        </div>
+        <h3 class="text-2xl md:text-3xl font-bold mb-3">${post.title}</h3>
+        <p class="text-gray-600 mb-6 max-w-3xl">${post.description || ''}</p>
+        <div class="flex flex-wrap items-center justify-between gap-4">
+          <a href="${url}" class="inline-flex items-center font-semibold text-white bg-blue-600 px-6 py-3 rounded-lg hover:bg-blue-700 hover:-translate-y-0.5 transition">Read the article <span class="ml-2">&rarr;</span></a>
+          <a href="/blog" class="font-semibold text-blue-600 hover:text-blue-800 transition">Browse all articles <span>&rarr;</span></a>
+        </div>
+      </div>`;
+  } catch (e) { box.style.display = 'none'; }
+})();
+</script>
+<script>
+// Scroll progress bar
+(function () {
+  var bar = document.getElementById('scroll-progress');
+  addEventListener('scroll', function () {
+    var el = document.documentElement;
+    var max = el.scrollHeight - el.clientHeight;
+    bar.style.width = (max > 0 ? (el.scrollTop / max) * 100 : 0) + '%';
+  }, { passive: true });
+})();
+// Reveal-on-scroll with staggered children
+(function () {
+  var io = new IntersectionObserver(function (entries) {
+    entries.forEach(function (e) {
+      if (!e.isIntersecting) return;
+      var el = e.target;
+      if (el.classList.contains('stagger-group')) {
+        Array.prototype.forEach.call(el.children, function (c, i) {
+          c.style.transitionDelay = (i * 0.12) + 's';
+        });
+      }
+      el.classList.add('visible');
+      io.unobserve(el);
+    });
+  }, { threshold: 0.15 });
+  document.querySelectorAll('.reveal, .stagger-group').forEach(function (el) { io.observe(el); });
+})();
+</script>
+</body>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const form = document.getElementById("subscribe-form");
+    const emailInput = document.getElementById("subscribe-email");
+
+    form.addEventListener("submit", function (e) {
+      const email = emailInput.value.trim();
+      const isValidEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+      if (!isValidEmail) {
+        e.preventDefault();
+        alert("Please enter a valid email address.");
+        return;
+      }
+
+      // keep the Formspree email notification (fire-and-forget, survives navigation)
+      const blob = new Blob([JSON.stringify({ email })], { type: "application/json" });
+      if (!navigator.sendBeacon("https://formspree.io/f/mzzvgndq", blob)) {
+        fetch("https://formspree.io/f/mzzvgndq", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ email }),
+          keepalive: true
+        }).catch(() => {});
+      }
+      // let the form submit natively to Buttondown so their verification page can complete
+    });
+  });
+</script>
+</body>
+</html>
