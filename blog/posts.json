@@ -68,5 +68,12 @@
     "url": "/blog/ai-agent-identity",
     "published": "October 2026",
     "icon": "🤖"
+  },
+  {
+    "title": "Blocking Nested Security Groups in Entra ID",
+    "description": "Nested security groups hide who really has access. Entra ID’s new disableNesting property blocks group-in-group membership - why it is a much-needed fix and how to use it.",
+    "url": "/blog/security-group-nesting-block",
+    "published": "October 2026",
+    "icon": "🚫"
   }
 ]
