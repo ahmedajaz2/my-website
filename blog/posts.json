@@ -75,5 +75,12 @@
     "url": "/blog/security-group-nesting-block",
     "published": "October 2026",
     "icon": "🚫"
+  },
+  {
+    "title": "SMS and Voice Are Leaving Password Reset Too",
+    "description": "Microsoft is retiring SMS and voice for password reset too - with a 50-day transition after Feb 1, 2027. Why passkeys alone will not save your users, and what to do before the clock runs out.",
+    "url": "/blog/sspr-sms-voice-retirement",
+    "published": "November 2026",
+    "icon": "📱"
   }
 ]
